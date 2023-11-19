@@ -1,0 +1,1 @@
+This project aims to create a standard framework that can be used to create applications with python and Kivy.

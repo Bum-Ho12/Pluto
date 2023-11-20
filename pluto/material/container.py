@@ -27,6 +27,11 @@ class Container(BoxLayout):
         widget.pos_hint = {'top': 1 - self.margin[0] / self.height,
                             'right': 1 - self.margin[1] / self.width,
                             'bottom': self.margin[2] / self.height,
-                            'left': self.margin[3] / self.width}
+                            'left': self.margin[3] / self.width
+                        }
+        # Apply decoration properties
+        if self.decoration:
+            widget.background_color = self.decoration.color
+            widget.border_radius = [self.decoration.border_radius]
 
         super(Container, self).add_widget(widget,**kwargs)

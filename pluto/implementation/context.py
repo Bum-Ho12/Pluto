@@ -1,6 +1,8 @@
+'''file that manages the framework's context'''
 import threading
 
-class FlutterContextManager:
+class ContextManager:
+    '''this class defines the context of the framework'''
     _instance_lock = threading.Lock()
     _instance = None
 
@@ -17,43 +19,31 @@ class FlutterContextManager:
         return self
 
     def execute_widget(self, widget):
+        '''method that execute the widget inside '''
         widget.execute(self)
 
     def add_widget(self, widget_name):
+        '''method that add widgets to the context'''
+        # pylint: disable=no-member
         with self.lock:
             self.widgets.append(widget_name)
             print(f"Added widget: {widget_name}")
 
     def __exit__(self, exc_type, exc_value, traceback):
         print("Exiting Flutter context")
+# pylint: disable=redefined-outer-name
 
 class WidgetMeta(type):
+    '''this class is a meta widget for WidgetBase to handle widget appending to the context list'''
     def __init__(cls, name, bases, attrs):
         super().__init__(name, bases, attrs)
-        FlutterContextManager()._instance.widgets.append(cls)
+        ContextManager()._instance.widgets.append(cls)
 
 class WidgetBase(metaclass=WidgetMeta):
+    '''this class adds widgets to the context'''
     def __init__(self, name):
         self.name = name
 
     def execute(self, context):
-        pass
-
-class Widget1(WidgetBase):
-    def execute(self, context):
-        print(f"Inside Widget 1 ({self.name})")
+        '''this method performs the add_widget action from ContextManager class'''
         context.add_widget(f"Widget 1 ({self.name})")
-
-class Widget2(WidgetBase):
-    def execute(self, context):
-        print(f"Inside Widget 2 ({self.name})")
-        context.add_widget(f"Widget 2 ({self.name})")
-
-# Simulate widget interactions
-with FlutterContextManager() as context:
-    widget1_instance = Widget1("Instance 1")
-    widget2_instance = Widget2("Instance 2")
-
-# Access the widgets outside the context
-print("Outside Flutter context")
-print("All widgets:", FlutterContextManager().widgets)

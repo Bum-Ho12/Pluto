@@ -1,13 +1,13 @@
 '''this file contains tests for ContextManager widget'''
-from pluto.implementation.context import WidgetBase, ContextManager
+from pluto.implementation.context import Context, ContextManager
 
-class Widget1(WidgetBase):
+class Widget1(Context):
     '''practice test'''
     # pylint: disable=redefined-outer-name
     def execute(self, context):
         print(f"Inside Widget 1 ({self.name})")
 
-class Widget2(WidgetBase):
+class Widget2(Context):
     '''practice test'''
     # pylint: disable=redefined-outer-name
     def execute(self, context):

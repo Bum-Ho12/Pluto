@@ -15,7 +15,6 @@ class ContextManager:
         return cls._instance
 
     def __enter__(self):
-        print("Entering Flutter context")
         return self
 
     def execute_widget(self, widget):
@@ -27,10 +26,17 @@ class ContextManager:
         # pylint: disable=no-member
         with self.lock:
             self.widgets.append(widget_name)
-            print(f"Added widget: {widget_name}")
+
+    def remove_widget(self, widget_name):
+        '''Method that removes widgets from the context'''
+        # pylint: disable=no-member
+        with self.lock:
+            if widget_name in self.widgets:
+                self.widgets.remove(widget_name)
+                print(f"Removed widget: {widget_name}")
 
     def __exit__(self, exc_type, exc_value, traceback):
-        print("Exiting Flutter context")
+        pass
 # pylint: disable=redefined-outer-name
 
 class WidgetMeta(type):
@@ -39,7 +45,7 @@ class WidgetMeta(type):
         super().__init__(name, bases, attrs)
         ContextManager()._instance.widgets.append(cls)
 
-class WidgetBase(metaclass=WidgetMeta):
+class Context(metaclass=WidgetMeta):
     '''this class adds widgets to the context'''
     def __init__(self, name):
         self.name = name
@@ -47,3 +53,7 @@ class WidgetBase(metaclass=WidgetMeta):
     def execute(self, context):
         '''this method performs the add_widget action from ContextManager class'''
         context.add_widget(f"Widget 1 ({self.name})")
+
+    def __del__(self):
+        # Remove the widget from the context when it is deleted
+        ContextManager()._instance.remove_widget(self)

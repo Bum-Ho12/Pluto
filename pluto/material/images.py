@@ -1,12 +1,14 @@
 '''file that defines images'''
 from kivy.uix.image import AsyncImage,Image
-from pluto.implementation import Context
+from ..implementation import context
 
-class NetworkImage(AsyncImage, Context):
+@context
+class NetworkImage(AsyncImage):
     '''class that defines Network image'''
     def __init__(self, image_url,**kwargs):
         super(NetworkImage,self).__init__(source = image_url,**kwargs)
 
+@context
 class AssetImage(Image):
     '''class that defines asset image'''
     def __init__(self, image_filename, **kwargs):

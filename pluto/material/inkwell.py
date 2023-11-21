@@ -1,9 +1,10 @@
 '''file that handles inkwell'''
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
-from pluto.implementation import Context
+from ..implementation import context
 
-class InkWell(ButtonBehavior, Label, Context):
+@context
+class InkWell(ButtonBehavior, Label):
     '''class that define InkWell button'''
     def __init__(self, child = None,**kwargs):
         super(InkWell, self).__init__(**kwargs)

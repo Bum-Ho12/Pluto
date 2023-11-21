@@ -2,9 +2,11 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.clock import Clock
-from pluto.implementation import Context
+from ..implementation import context
 
-class Snackbar(BoxLayout,Context):
+
+@context
+class Snackbar(BoxLayout):
     '''class that defines snackbar'''
     def __init__(self, text, duration=3, **kwargs):
         super(Snackbar, self).__init__(**kwargs)

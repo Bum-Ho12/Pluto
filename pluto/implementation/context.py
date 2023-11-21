@@ -39,21 +39,22 @@ class ContextManager:
         pass
 # pylint: disable=redefined-outer-name
 
-class WidgetMeta(type):
-    '''this class is a meta widget for WidgetBase to handle widget appending to the context list'''
-    def __init__(cls, name, bases, attrs):
-        super().__init__(name, bases, attrs)
-        ContextManager()._instance.widgets.append(cls)
 
-class Context(metaclass=WidgetMeta):
-    '''this class adds widgets to the context'''
-    def __init__(self, name):
-        self.name = name
+def context(cls):
+    '''
+    it is a decorator that adds widgets to context
+    '''
+    class ContextWidget(cls):
+        '''this class adds widgets to the context'''
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.execute(ContextManager()._instance)
 
-    def execute(self, context):
-        '''this method performs the add_widget action from ContextManager class'''
-        context.add_widget(f"Widget 1 ({self.name})")
+        def execute(self, context):
+            '''this method performs the add_widget action from ContextManager class'''
+            context.add_widget(f"Widget ({self.__class__.__name__})")
 
-    def __del__(self):
-        # Remove the widget from the context when it is deleted
-        ContextManager()._instance.remove_widget(self)
+        def __del__(self):
+            # Remove the widget from the context when it is deleted
+            ContextManager()._instance.remove_widget(self)
+    return ContextWidget

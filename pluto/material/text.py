@@ -1,8 +1,9 @@
 '''file that contains the text widget'''
 from kivy.uix.label import Label
 import kivy.properties as kvProps
+from pluto.implementation import Context
 
-class Text(Label):
+class Text(Label, Context):
     '''Class that defines a custom Text widget'''
     # pylint: disable = I1101:c-extension-no-member
     text_color = kvProps.ListProperty([1, 1, 1, 1])  # Default text color (white)

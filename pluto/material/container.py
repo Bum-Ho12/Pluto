@@ -1,8 +1,9 @@
 '''file that defines the Container class widget'''
 from kivy.uix.boxlayout import BoxLayout
 import kivy.properties as kivyProp
+from pluto.implementation import Context
 
-class Container(BoxLayout):
+class Container(BoxLayout, Context):
     '''class that contains the container properties'''
     # Custom properties
     # pylint: disable = I1101:c-extension-no-member

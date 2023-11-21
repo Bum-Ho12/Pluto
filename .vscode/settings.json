@@ -4,6 +4,7 @@
         "glew",
         "Kivy",
         "Roboto",
+        "screenmanager",
         "setuptools"
     ]
 }

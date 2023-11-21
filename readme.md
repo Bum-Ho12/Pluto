@@ -2,5 +2,5 @@ This project aims to create a standard framework that can be used to create appl
 
 To complete setup, please run on cmd "python pluto.py setup"
 
-to run the application, run script on cmd
+To run the application, run script on cmd
 "python pluto.py run"

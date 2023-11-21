@@ -4,7 +4,7 @@ to execute different instructions
 '''
 import sys
 from runner import main as pluto_main
-from pluto_verse import main as pluto_verse_main
+from pluto.core import pluto_verse_main
 
 def main():
     '''

@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
         "boxlayout",
+        "glew",
         "Kivy",
-        "Roboto"
+        "Roboto",
+        "setuptools"
     ]
 }

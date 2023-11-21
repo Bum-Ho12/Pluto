@@ -7,7 +7,6 @@ the Pluto framework
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager,Screen
 from kivy.app import App
-# from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 
@@ -73,3 +72,9 @@ class OtherScreen(Screen):
     def __init__(self, **kwargs):
         super(OtherScreen, self).__init__(**kwargs)
         self.add_widget(Label(text='Welcome, to Other screen'))
+
+class OtherScreen2(Screen):
+    '''Other screen example'''
+    def __init__(self, **kwargs):
+        super(OtherScreen2, self).__init__(**kwargs)
+        self.add_widget(Label(text='Welcome, to Other screen 2'))

@@ -21,6 +21,8 @@ def main():
         pluto_main()
     elif command == "setup":
         pluto_verse_main()
+    elif command =="restart":
+        pluto_main()
     else:
         print(f"Unknown command: {command}")
 

@@ -5,6 +5,7 @@
         "Kivy",
         "Roboto",
         "screenmanager",
-        "setuptools"
+        "setuptools",
+        "watchgod"
     ]
 }

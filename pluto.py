@@ -3,6 +3,7 @@ this file contains script that manages the command line commands passed
 to execute different instructions
 '''
 import sys
+from pluto.core import pluto_verse_env
 from pluto.core import pluto_verse_main
 
 
@@ -22,9 +23,9 @@ def main():
         from runner import main as pluto_main
         pluto_main()
     elif command == "setup":
+        pluto_verse_env()
+    elif command =="fetch":
         pluto_verse_main()
-    # elif command =="restart":
-    #     pluto_main()
     else:
         print(f"Unknown command: {command}")
 

@@ -5,19 +5,6 @@ necessary in the Pluto Project.
 import os
 import sys
 import subprocess
-import yaml
-
-def install_dependencies(dependencies):
-    '''
-    this method fetches dependencies from internet and installs them in your
-    project.
-    '''
-    # pylint: disable = W1510:subprocess-run-check
-    subprocess.run([sys.executable,'-m','pip', 'install','--upgrade'], dependencies)
-    # for dependency in dependencies:
-        # # pylint: disable = W1510:subprocess-run-check
-        # subprocess.run([sys.executable,'-m','pip', 'install','--upgrade'], dependency)
-
 
 
 def create_virtual_environment():
@@ -64,17 +51,6 @@ def main():
     # Activate the virtual environment
     activate_virtual_environment()
 
-    # pylint: disable = W1514:unspecified-encoding
-    with open('dep.yaml', 'r') as file:
-        data = yaml.safe_load(file)
-        dependencies = data.get('dependencies', [])
-
-    if dependencies:
-        print("<<<< installing dependencies from dep.yaml >>>>")
-        install_dependencies(dependencies)
-        print("<<<<<<<<< Dependencies installed successfully. >>>>>>>>>>>>")
-    else:
-        print("<<<<<<<<< No dependencies found in dep.yaml. >>>>>>>>>>>>")
 
 if __name__ == "__main__":
     main()

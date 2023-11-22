@@ -25,10 +25,20 @@ def create_virtual_environment():
 
 def activate_virtual_environment():
     '''Activate the Python virtual environment'''
-    venv_path = os.path.join(os.getcwd(), 'venv')
-    activate_script = os.path.join(venv_path, 'Scripts'
-                        if sys.platform == 'win32' else 'bin', 'activate')
-    activate_cmd = f'"{activate_script}"'
+    venv_path = os.path.join(os.getcwd(), 'pluto_env')
+
+    # Determine the platform-specific activation script
+    activate_script = 'activate' if sys.platform == 'win32' else 'activate'
+
+    activate_script_path = os.path.join(venv_path, 'Scripts'
+                        if sys.platform == 'win32' else 'bin', activate_script)
+
+    # Set the appropriate command based on the platform
+    if sys.platform == 'win32':
+        activate_cmd = f'cmd /k "{activate_script_path}"'
+    else:
+        activate_cmd = f'source "{activate_script_path}"'
+
     # pylint: disable = W1510:subprocess-run-check
     subprocess.run(activate_cmd, shell=True)
 

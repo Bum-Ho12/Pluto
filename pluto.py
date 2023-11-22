@@ -3,8 +3,8 @@ this file contains script that manages the command line commands passed
 to execute different instructions
 '''
 import sys
-from runner import main as pluto_main
 from pluto.core import pluto_verse_main
+
 
 def main():
     '''
@@ -18,11 +18,13 @@ def main():
     command = sys.argv[1]
 
     if command == "run":
+        # pylint: disable = C0415:import-outside-toplevel
+        from runner import main as pluto_main
         pluto_main()
     elif command == "setup":
         pluto_verse_main()
-    elif command =="restart":
-        pluto_main()
+    # elif command =="restart":
+    #     pluto_main()
     else:
         print(f"Unknown command: {command}")
 

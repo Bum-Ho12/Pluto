@@ -4,7 +4,6 @@ necessary in the Pluto Project.
 '''
 import sys
 import subprocess
-import yaml
 
 def install_dependencies(dependencies):
     '''
@@ -21,10 +20,12 @@ def main():
     '''the main function that handles dependency installation'''
     # installing PyYAML
     # pylint: disable = W1510:subprocess-run-check
-    subprocess.run(['pip', 'install', 'PyYAML'])
+    subprocess.run([sys.executable,'-m','pip', 'install', 'PyYAML'])
 
     # pylint: disable = W1514:unspecified-encoding
     with open('dep.yaml', 'r') as file:
+        # pylint: disable = C0415:import-outside-toplevel
+        import yaml
         data = yaml.safe_load(file)
         dependencies = data.get('dependencies', [])
 

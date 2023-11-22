@@ -4,7 +4,6 @@ to execute different instructions
 '''
 import sys
 from pluto.core import pluto_verse_env
-from pluto.core import pluto_verse_main
 
 
 def main():
@@ -25,6 +24,8 @@ def main():
     elif command == "setup":
         pluto_verse_env()
     elif command =="fetch":
+        # pylint: disable = C0415:import-outside-toplevel
+        from pluto.handler import pluto_verse_main
         pluto_verse_main()
     else:
         print(f"Unknown command: {command}")

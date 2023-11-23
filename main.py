@@ -52,7 +52,7 @@ class BottomNavBar(BoxLayout):
         home_button.bind(on_release=self.switch_screen)
         self.add_widget(home_button)
 
-        other_button = Button(text='Other')
+        other_button = Button(text='Screen')
         other_button.bind(on_release=self.switch_screen)
         self.add_widget(other_button)
 
@@ -65,7 +65,7 @@ class HomeScreen(Screen):
     '''Home Screen example'''
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
-        self.add_widget(Label(text='Welcome, Pluto'))
+        self.add_widget(Label(text='Welcome to Pluto, let us build great apps together'))
 
 class OtherScreen(Screen):
     '''Other screen example'''
@@ -73,8 +73,8 @@ class OtherScreen(Screen):
         super(OtherScreen, self).__init__(**kwargs)
         self.add_widget(Label(text='Welcome, to Other screen'))
 
-class OtherScreen2(Screen):
-    '''Other screen example'''
-    def __init__(self, **kwargs):
-        super(OtherScreen2, self).__init__(**kwargs)
-        self.add_widget(Label(text='Welcome, to Other screen 2'))
+# class OtherScreen2(Screen):
+#     '''Other screen example'''
+#     def __init__(self, **kwargs):
+#         super(OtherScreen2, self).__init__(**kwargs)
+#         self.add_widget(Label(text='Welcome, to Other screen 2'))

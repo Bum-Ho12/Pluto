@@ -1,8 +1,10 @@
 {
     "cSpell.words": [
         "boxlayout",
+        "creationflags",
         "glew",
         "Kivy",
+        "kivymd",
         "Roboto",
         "screenmanager",
         "setuptools",

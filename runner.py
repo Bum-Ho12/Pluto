@@ -4,7 +4,8 @@ defined in main.py
 '''
 import os
 import sys
-import subprocess
+# import subprocess
+import threading
 from pathlib import Path
 from watchgod import watch
 from main import RunApp
@@ -25,6 +26,7 @@ def watch_for_changes():
     """
     project_dir = Path(__file__).parent.resolve()
     watched_dirs = [project_dir]
+    print(f"Watching for changes in {watched_dirs}...")
 
     for changes in watch(watched_dirs):
         print("Changes detected:")
@@ -44,5 +46,8 @@ def main():
 
 if __name__ == '__main__':
     # Start a separate thread to watch for changes in the project directory
-    subprocess.Popen([sys.executable, __file__, 'watch_for_changes'])
+    # subprocess.Popen([sys.executable, __file__, 'watch_for_changes'],
+    #                 creationflags=subprocess.CREATE_NEW_CONSOLE)
+    changes_thread = threading.Thread(target=watch_for_changes)
+    changes_thread.start()
     main()

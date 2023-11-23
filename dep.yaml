@@ -1,3 +1,4 @@
 dependencies:
-  - kivy==2.2.1
+  - kivymd==1.1.1
   - watchgod==0.8.2
+  - watchdog==3.0.0

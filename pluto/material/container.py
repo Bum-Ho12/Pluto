@@ -1,39 +1,37 @@
 '''file that defines the Container class widget'''
-from kivy.uix.boxlayout import BoxLayout
-import kivy.properties as kivyProp
-from ..implementation import context
+import skia
 
-@context
-class Container(BoxLayout):
+class Container:
     '''class that contains the container properties'''
-    # Custom properties
-    # pylint: disable = I1101:c-extension-no-member
-    height = kivyProp.NumericProperty(100)  # Default height
-    width = kivyProp.NumericProperty(100)   # Default width
-    padding = kivyProp.ListProperty([0, 0, 0, 0])  # Default padding: [top, right, bottom, left]
-    margin = kivyProp.ListProperty([0, 0, 0, 0])   # Default margin: [top, right, bottom, left]
-    decoration = kivyProp.ObjectProperty(None)
+    # pylint: disable = W0102
+    def __init__(self, height=100, width=100, padding=[0, 0, 0, 0],
+                margin=[0, 0, 0, 0], decoration=None, background_color=(0, 0, 0, 0)):
+        # Custom properties
+        self.height = height
+        self.width = width
+        self.padding = padding
+        self.margin = margin
+        self.decoration = decoration
+        self.background_color = background_color
+        self.children = []
 
-    def __init__(self, **kwargs):
-        super(Container, self).__init__(**kwargs)
-        self.orientation = 'vertical'
-        # Apply custom properties
-        self.size_hint = None, None
-        self.size = (self.width, self.height)
-        self.padding = self.padding
-        self.margin = self.margin
+    def add_widget(self, widget):
+        '''adds widget to the container'''
+        self.children.append(widget)
 
-    def child(self, widget, **kwargs):
-        '''adds child widget to the Container'''
-        # Adjust child widget's position based on margin
-        widget.pos_hint = {'top': 1 - self.margin[0] / self.height,
-                            'right': 1 - self.margin[1] / self.width,
-                            'bottom': self.margin[2] / self.height,
-                            'left': self.margin[3] / self.width
-                        }
-        # Apply decoration properties
+    def __call__(self, canvas, x, y):
+        # Render the container background
+        # pylint: disable = I1101
+        paint = skia.Paint()
+        paint.color = skia.Color(*[int(c * 255) for c in self.background_color])
+        bounds = skia.Rect(x, y, x + self.width, y + self.height)
+        canvas.drawRect(bounds, paint)
+
+        # Render decoration if available
         if self.decoration:
-            widget.background_color = self.decoration.color
-            widget.border_radius = [self.decoration.border_radius]
+            self.decoration(canvas)
 
-        super(Container, self).add_widget(widget,**kwargs)
+        # Render child widgets
+        for child in self.children:
+            # use margin to adjust child position
+            child.render(canvas, x + self.margin[3], y + self.margin[2])

@@ -5,9 +5,11 @@
         "glew",
         "Kivy",
         "kivymd",
+        "Premul",
         "Roboto",
         "screenmanager",
         "setuptools",
+        "skia",
         "watchgod"
     ]
 }

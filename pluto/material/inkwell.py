@@ -1,29 +1,38 @@
 '''file that handles inkwell'''
-from kivy.uix.behaviors import ButtonBehavior
-from kivy.uix.label import Label
-from ..implementation import context
+import skia
+#pylint: disable = E0611
+from skia import Rect
 
-@context
-class InkWell(ButtonBehavior, Label):
-    '''class that define InkWell button'''
-    def __init__(self, child = None,**kwargs):
-        super(InkWell, self).__init__(**kwargs)
+class InkWell:
+    '''class that defines InkWell button'''
+    def __init__(self, child=None, bounds=None, opacity=1.0,background_color = 0xFFFFFFF):
         self.child = child
-        if child:
-            self.add_widget(child)
-        # pylint: disable= E1101:no-member
-        self.bind(on_press=self.on_press)
-        self.bind(on_release=self.on_release)
+        self.bounds = bounds or Rect(0, 0, 100, 50)  # Default bounds, adjust as needed
+        self.opacity = opacity
+        self.background_color = background_color
 
-    # pylint: disable = W0613:unused-argument
-    # pylint: disable = W0221:arguments-differ
-    def on_press(self, instance):
+    def on_press(self):
+        '''function that handles the press functionality'''
         self.opacity = 0.5
 
-    def on_release(self, instance):
+    def on_release(self):
+        '''function that handles the release functionality'''
         self.opacity = 1.0
-        # pylint: disable = E1101:no-member
-        self.dispatch('on_click')
+        self.on_click()
 
     def on_click(self):
         '''defines the click action'''
+        # Your custom click action goes here
+
+    def __call__(self, canvas, x, y):
+        '''renders'''
+        # Drawing background
+        background_color = self.background_color  # Replace with your desired color
+        #pylint: disable = I1101
+        paint = skia.Paint()
+        paint.color = background_color
+        canvas.drawRect(self.bounds, paint)
+
+        # Render child if present
+        if self.child:
+            self.child.render(canvas, x, y)

@@ -1,5 +1,4 @@
 '''file that contains the text widget'''
-import os
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle
 
@@ -7,24 +6,16 @@ class Text(Label):
     '''class that defines a custom text'''
     # pylint: disable = W0102
     def __init__(self, text='', text_color=[1, 1, 1, 1],
-                font_size=15, font_name=None,
+                font_size=15, font_name='Arial',
                 bold=False, italic=False, bounds=None, **kwargs):
         super(Text, self).__init__(**kwargs)
         self.text = text
         self.text_color = text_color
         self.font_size = font_size
-        # self.font_name = font_name
+        self.font_name = font_name
         self.bold = bold
         self.italic = italic
         self.bounds = bounds or (0, 0, 100, 30)
-
-        if font_name:
-            # Check if the font_name is a file path, if not, assume it's a system font
-            if os.path.isfile(font_name):
-                self.font_name = font_name
-            else:
-                # If it's not a file path, assume it's a system font
-                self.font_name = ''
 
         self.update_properties()
         self.draw_text()
@@ -36,6 +27,7 @@ class Text(Label):
         self.bold = 'bold' if self.bold else ''
         self.italic = int(self.italic)
         self.size = (self.bounds[2] - self.bounds[0], self.bounds[3] - self.bounds[1])
+        print("Font Name:", self.font_name)
         self.font_name = self.font_name
 
     def draw_text(self):

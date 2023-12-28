@@ -6,6 +6,7 @@
         "glew",
         "Kivy",
         "kivymd",
+        "multisamples",
         "Premul",
         "Roboto",
         "screenmanager",

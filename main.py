@@ -5,6 +5,7 @@ the Pluto framework
 '''
 from kivy.app import App
 from kivy.config import Config
+from kivy.uix.boxlayout import BoxLayout
 from pluto.material import Container, Text, Scaffold
 from pluto.material.app_bar import AppBar
 from pluto.implementation.ptx_wrapper import ptx
@@ -18,7 +19,7 @@ def main_app():
 
     font_name = 'E:/Projects/Pluto/pluto/fonts/Montserrat-VariableFont_wght.ttf'
 
-    scaffold = Scaffold(
+    return Scaffold(
         orientation='vertical',
         app_bar=AppBar(
             title=Text(
@@ -29,26 +30,28 @@ def main_app():
                 font_size=20,
             )
         ),
-        body=Container(
-            height=200,
-            width=200,
-            margin=(20, 20),  # Adjusted margin
-            decoration=None,
-            background_color=(1, 0.5, 0.5, 1),
+        body=BoxLayout(
+            orientation='vertical',
+            spacing=10,  # Adjust spacing as needed
+            padding=10,  # Adjust padding as needed
             children=[
-                Text(
-                    text="Hello, this is inside the Container!",
-                    font_name=font_name,
-                    italic=True,
-                    text_color=[1, 1, 1, 1]
+                Container(
+                    height=200,
+                    width=200,
+                    decoration=None,
+                    background_color=(1, 0.5, 0.5, 1),
+                    children=[
+                        Text(
+                            text="Hello, this is inside the Container!",
+                            font_name=font_name,
+                            italic=True,
+                            text_color=[1, 1, 1, 1]
+                        )
+                    ]
                 )
             ]
         ),
     )
-    print(f"Scaffold size: {scaffold.size}")
-    print(f"AppBar size: {scaffold.app_bar.size}")
-    print(f"Body size: {scaffold.body.size}")
-    return scaffold
 
 class RunApp(App):
     '''runs the Main application'''

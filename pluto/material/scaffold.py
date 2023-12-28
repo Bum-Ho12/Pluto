@@ -1,14 +1,15 @@
 '''scaffold widget for the application'''
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Rectangle, Color
-from pluto.material.app_bar import AppBar
-from pluto.material.container import Container
+# pylint: disable=E0611, W0613
+from kivy.properties import ObjectProperty
 
 class Scaffold(BoxLayout):
-    '''
-    This widget handles the encapsulation of the entire application
-    widgets in the application.
-    '''
+    '''scaffold class'''
+    app_bar = ObjectProperty(None, force_dispatch=True)
+    body = ObjectProperty(None, force_dispatch=True)
+
     def __init__(
         self, app_bar=None, body=None,
         orientation='vertical',
@@ -20,27 +21,40 @@ class Scaffold(BoxLayout):
         self.padding = padding
         self.margin = margin
 
-        # Define properties for the Scaffold
-        self.app_bar = AppBar() if app_bar is None else app_bar
-        self.body = Container() if body is None else body
-        self.bounds = (0, 0, 100, 100)  # Default bounds, adjust as needed
-        self.background_color = (0, 0, 0, 1)  # Replace with your desired background color
+        self.app_bar = app_bar
+        self.body = body
 
-        # Add app_bar and body to the Scaffold
-        self.add_widget(self.app_bar)
-        self.add_widget(self.body)
+        # Create and add app_bar if provided
+        if app_bar:
+            anchor_layout_app_bar = AnchorLayout(anchor_x='center', anchor_y='top')
+            anchor_layout_app_bar.add_widget(app_bar)
+            self.add_widget(anchor_layout_app_bar)
+
+        # Create and add body widget if provided
+        if body:
+            anchor_layout_body = AnchorLayout(anchor_x='center', anchor_y='center')
+            anchor_layout_body.add_widget(body)
+            self.add_widget(anchor_layout_body)
 
     def on_background_color(self, instance, value):
-        '''Update the background color when the background_color property changes'''
+        '''on_background_color call'''
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*value)
             Rectangle(pos=self.pos, size=self.size)
 
     def on_size(self, instance, value):
-        '''Update the body widget size when the size of the Scaffold changes'''
-        self.body.size = value
+        '''on_size call'''
+        if self.body:
+            self.body.size = (value[0], value[1] - self.app_bar.height)
 
     def on_pos(self, instance, value):
-        '''Update the body widget position when the position of the Scaffold changes'''
-        self.body.pos = value
+        '''sets position'''
+        if self.body:
+            self.body.pos = value[0], value[1] + self.app_bar.height
+
+    def on_app_bar(self, instance, value):
+        '''sets app bar'''
+        if value:
+            # pylint: disable =C0301
+            self.height = self.app_bar.height + self.body.height if self.body else self.app_bar.height

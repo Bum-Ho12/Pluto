@@ -1,15 +1,21 @@
 '''file that handles inkwell'''
-import skia
-#pylint: disable = E0611
-from skia import Rect
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.label import Label
+from kivy.graphics import Rectangle, Color
 
-class InkWell:
-    '''class that defines InkWell button'''
-    def __init__(self, child=None, bounds=None, opacity=1.0,background_color = 0xFFFFFFF):
+class InkWell(ButtonBehavior, Label):
+    '''class that defines the InkWell component'''
+    def __init__(self, child=None, bounds=None, background_color=(1, 1, 1, 1), **kwargs):
+        super(InkWell, self).__init__(**kwargs)
         self.child = child
-        self.bounds = bounds or Rect(0, 0, 100, 50)  # Default bounds, adjust as needed
-        self.opacity = opacity
+        self.bounds = bounds or (0, 0, 100, 50)  # Default bounds, adjust as needed
         self.background_color = background_color
+        self.opacity = 1.0
+
+        # rectangle definition
+        with self.canvas.before:
+            Color(*background_color)
+            self.rect = Rectangle(pos=self.pos, size=self.size)
 
     def on_press(self):
         '''function that handles the press functionality'''
@@ -23,15 +29,14 @@ class InkWell:
     def on_click(self):
         '''defines the click action'''
         # Your custom click action goes here
+        print("Button clicked")
 
-    def __call__(self, canvas, x, y):
-        '''renders'''
+    def render(self, canvas, x, y):
+        '''renders the child component'''
         # Drawing background
-        background_color = self.background_color  # Replace with your desired color
-        #pylint: disable = I1101
-        paint = skia.Paint()
-        paint.color = background_color
-        canvas.drawRect(self.bounds, paint)
+        background_color = self.background_color
+        with self.canvas.before:
+            Color(*background_color)
 
         # Render child if present
         if self.child:

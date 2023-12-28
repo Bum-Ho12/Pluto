@@ -1,26 +1,23 @@
 '''file that handles the decoration'''
+from kivy.uix.widget import Widget
+from kivy.graphics import Rectangle, Color, RoundedRectangle
 
-import skia
-
-class Decoration:
-    '''class that defines the decoration properties'''
-    # pylint: disable = W0102
-    def __init__(self, color=[1, 1, 1, 1], border_radius=0, bounds=None):
+class Decoration(Widget):
+    '''class that defines the Decoration class'''
+    def __init__(self, color=(1, 1, 1, 1), border_radius=0, bounds=None, **kwargs):
+        super(Decoration, self).__init__(**kwargs)
         self.color = color
         self.border_radius = border_radius
-        # pylint: disable = I1101
-        self.bounds = bounds or skia.Rect(0, 0, 100, 100)  # Default bounds, adjust as needed
+        self.bounds = bounds or (0, 0, 100, 100)  # Default bounds, adjust as needed
 
-    def __call__(self, canvas):
-        # Drawing decoration using Skia
-        # pylint: disable = I1101
-        paint = skia.Paint()
-        paint.color = skia.Color(*[int(c * 255) for c in self.color])
-        paint.isAntiAlias = True
+        self.draw()
 
-        if self.border_radius > 0:
-            # Draw a rounded rectangle
-            canvas.drawRoundRect(self.bounds, self.border_radius, self.border_radius, paint)
-        else:
-            # Draw a regular rectangle
-            canvas.drawRect(self.bounds, paint)
+    def draw(self):
+        '''method that draws decoration definitions'''
+        self.canvas.clear()
+        with self.canvas:
+            Color(*self.color)
+            if self.border_radius > 0:
+                RoundedRectangle(pos=self.pos, size=self.size, radius=[self.border_radius])
+            else:
+                Rectangle(pos=self.pos, size=self.size)

@@ -3,33 +3,44 @@ this file contains the main code to be ran
 for the entire project to execute in python for
 the Pluto framework
 '''
-import skia
+import os
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from pluto.implementation.ptx_wrapper import ptx
 from pluto.material import Container, Text
 
-class RunApp:
-    '''
-    this is the primary method that encapsulates
-    all the widgets of the application.
-    '''
-    def run(self):
-        '''execute application'''
-        # Create a Skia canvas (replace with your desired setup)
-        # pylint: disable = I1101
-        surface = skia.ImageSurface.MakeRasterN32Premul(400, 300)
-        canvas = skia.SurfaceCanvas(surface)
+# Define your application structure using the ptx decorator
+@ptx
+def main_app():
+    '''main function definition'''
 
-        # Create widgets using Skia-based classes
-        container = Container(height=100, width=200, padding=[10, 10, 10, 10], margin=[5, 5, 5, 5])
-        text = Text(text="Hello, Skia!", text_color=[1, 1, 1, 1], font_size=20)
-        container.add_widget(text)
+    font_path = os.path.abspath('E:/Projects/Pluto/fonts/Montserrat-VariableFont_wght.ttf')
 
-        # Render the widgets
-        container(canvas, 0, 0)
+    return BoxLayout(
+        orientation='vertical',
+        children=[
+            Text(text="Hello, this is a Kivy app!"),
+            Container(
+                height=200,
+                width=200,
+                margin=(20, 20, 0, 0),
+                decoration=None,  # Add your decoration if needed
+                background_color=(0.5, 0.5, 0.5, 1),
+                children=[
+                    Text(text="Hello, this is inside the Container!",
+                        font_name= font_path,
+                        italic= True,
+                    )
+                ]
+            )
+        ]
+    )
 
-        # Save or display the result (replace with your desired output)
-        surface.saveToFile("output.png")
+class RunApp(App):
+    '''runs the Main application'''
+    def build(self):
+        # Instantiate the root widget using the MyApp function
+        return main_app()
 
-# Run the Skia app
-if __name__ == "__main__":
-    app = RunApp()
-    app.run()
+# if __name__ == '__main__':
+#     RunApp().run()

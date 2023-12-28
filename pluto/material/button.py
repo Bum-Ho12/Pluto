@@ -1,21 +1,25 @@
 '''file defines a button for the UI component framework'''
-import skia
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.label import Label
 
-class Button:
-    '''class that defines the button click component'''
-    def __init__(self,text,on_click=None,style=None):
+class CustomButton(ButtonBehavior, Label):
+    '''class that defines the Button component'''
+    def __init__(self, text='', on_click=None, style=None, **kwargs):
+        super(CustomButton, self).__init__(**kwargs)
         self.text = text
         self.on_click = on_click
         self.style = style or {}
 
-    def __call__(self, canvas,x,y):
-        #pylint: disable = I1101
-        paint = skia.Paint()
-        paint.color = self.style.get('background',0xFFFFFFFF)
-        canvas.drawRect(skia.Rect(x,y,x+100,y+50),paint)
+        # Set button properties
+        self.background_color = self.style.get('background', (1, 1, 1, 1))
+        self.text_color = self.style.get('text_color', (1, 1, 1, 1))
+        self.text_size = self.style.get('text_size', 16)
+        self.padding = (self.style.get('padding', 0), 0)
 
-        text_paint = skia.Paint()
-        text_paint.color = self.style.get('text_color',0xFFFFFFFF)
-        text_paint.text_size = self.style('text_size',16)
+        # Bind click event
+        if self.on_click:
+            self.bind(on_press=self.on_click)
 
-        canvas.drawerText(self.text,x+ self.style.get('padding',0), y+3,text_paint)
+    def on_press(self):
+        # Handle button press event
+        print(f'Button "{self.text}" pressed')

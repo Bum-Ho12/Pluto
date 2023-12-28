@@ -2,6 +2,7 @@
     "cSpell.words": [
         "boxlayout",
         "creationflags",
+        "floatlayout",
         "glew",
         "Kivy",
         "kivymd",
@@ -10,6 +11,7 @@
         "screenmanager",
         "setuptools",
         "skia",
-        "watchgod"
+        "watchgod",
+        "wght"
     ]
 }

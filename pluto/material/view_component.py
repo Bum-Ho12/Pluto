@@ -1,30 +1,24 @@
 '''
 file that defines the View UI basic component
 '''
-import skia
+from kivy.uix.floatlayout import FloatLayout
+from kivy.graphics import Rectangle, Color
 
-class View():
-    '''class defines the View component of the basic UI framework'''
-    def __init__(self, children=None,style =None) -> None:
-        '''initialize'''
+class View(FloatLayout):
+    '''this class defines the View component'''
+    def __init__(self, children=None, style=None, **kwargs):
+        super(View, self).__init__(**kwargs)
         self.children = children or []
-        self.style = style or{}
+        self.style = style or {}
 
-    def __call__(self,canvas,x,y):
-        #pylint: disable = I1101
-        '''renders View'''
-        background_color = self.style.get('background_color',0xFFFFFFFF)
-        margin = self.style.get('margin',0)
-        padding = self.style.get('padding',0)
-
-        #Drawing background
-        paint = skia.Paint()
-        paint.color = background_color
-        canvas.drawRect(skia.Rect(x,y,x+100,y+ 50),paint)
-
-        # applying padding and margin
-        x+= padding
-        y += padding
-
-        for child in self.children:
-            child.render(canvas,x+margin,y+margin)
+        # Set background color
+        background_color = self.style.get('background_color', (1, 1, 1, 1))
+        with self.canvas.before:
+            Color(*background_color)
+            self.rect = Rectangle(pos=self.pos, size=self.size)
+    # pylint: disable = W0221
+    def add_widget(self, widget, index=0, canvas=None):
+        # Adjust child widget's position based on padding and margin
+        margin = self.style.get('margin', 0)
+        widget.pos_hint = {'x': margin, 'y': margin}
+        return super(View, self).add_widget(widget, index=index, canvas=canvas)

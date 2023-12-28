@@ -1,36 +1,49 @@
 '''file that contains the text widget'''
-import skia
+import os
+from kivy.uix.label import Label
+from kivy.graphics import Color, Rectangle
 
-class Text:
-    '''Class that defines a custom Text widget'''
+class Text(Label):
+    '''class that defines a custom text'''
     # pylint: disable = W0102
-    def __init__(self,text = '', text_color=[1, 1, 1, 1],
-                font_size=15, font_name=None, bold=0, italic=0, bounds=None):
+    def __init__(self, text='', text_color=[1, 1, 1, 1],
+                font_size=15, font_name=None,
+                bold=False, italic=False, bounds=None, **kwargs):
+        super(Text, self).__init__(**kwargs)
         self.text = text
         self.text_color = text_color
         self.font_size = font_size
-        self.font_name = font_name
+        # self.font_name = font_name
         self.bold = bold
         self.italic = italic
-        # pylint: disable = I1101
-        self.bounds = bounds or skia.Rect(0, 0, 100, 30)  # Default bounds, adjust as needed
+        self.bounds = bounds or (0, 0, 100, 30)
 
-    def __call__(self, canvas, x, y):
-        # Rendering the text using Skia
-        # pylint: disable = I1101
-        paint = skia.Paint()
-        paint.color = skia.Color(*[int(c * 255) for c in self.text_color])
-        paint.textSize = self.font_size
+        if font_name:
+            # Check if the font_name is a file path, if not, assume it's a system font
+            if os.path.isfile(font_name):
+                self.font_name = font_name
+            else:
+                # If it's not a file path, assume it's a system font
+                self.font_name = ''
 
-        if self.font_name:
-            paint.typeface = skia.Typeface(self.font_name)
+        self.update_properties()
+        self.draw_text()
 
-        if self.bold:
-            paint.isFakeBoldText = True
+    def update_properties(self):
+        '''updates properties of the text'''
+        self.color = self.text_color
+        self.font_size = self.font_size
+        self.bold = 'bold' if self.bold else ''
+        self.italic = int(self.italic)
+        self.size = (self.bounds[2] - self.bounds[0], self.bounds[3] - self.bounds[1])
+        self.font_name = self.font_name
 
-        if self.italic:
-            paint.textSkewX = -0.25
+    def draw_text(self):
+        '''draws the text on the canvas'''
+        with self.canvas:
+            Color(*self.text_color)
+            Rectangle(pos=self.pos, size=self.size)
 
-        # Draw the text
-        # pylint: disable = E1101
-        canvas.drawText(self.text, x, y, paint)
+            # Draw the text
+            self.text_size = self.size
+            self.text = self.text

@@ -1,30 +1,43 @@
 '''scaffold widget for the application'''
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.widget import Widget
+from kivy.graphics import Rectangle, Color
 
-import skia
-#pylint: disable = E0611
-from skia import Rect, Surface
-
-class Scaffold:
+class Scaffold(BoxLayout):
     '''
     this widget handles the encapsulation of the entire application
     widgets in the application.
     '''
-    def __init__(self, child, bounds=None):
+    def __init__(self, child, bounds=None, padding=(10, 10), margin=(10, 10), **kwargs):
+        super(Scaffold, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.padding = padding
+        self.margin = margin
+
+        # Define properties for the Scaffold
         self.child = child
-        self.bounds = bounds or Rect(0, 0, 100, 100)  # Default bounds, adjust as needed
-        self.surface = Surface(self.bounds.width(), self.bounds.height())
-    def add_widget(self, widget):
-        '''adds widget'''
-        # Add the widget to the surface or handle it based on your Skia implementation
+        self.bounds = bounds or (0, 0, 100, 100)  # Default bounds, adjust as needed
+        self.background_color = (0, 0, 0, 1)  # Replace with your desired background color
 
-    def __call__(self, canvas, x, y):
-        # Rendering the Scaffold using Skia
-        # Draw the background or handle it based on your Skia implementation
-        # pylint: disable = I1101
-        paint = skia.Paint()
-        paint.color = skia.Color(0, 0, 0, 255)  # Replace with your desired background color
-        canvas.drawRect(self.bounds, paint)
+        # Create and add child widget
+        self.child_widget = Widget()
+        self.add_widget(self.child_widget)
 
-        # Render the child widget
-        if self.child:
-            self.child(canvas, x, y)
+    def add_widget_to_child(self, widget):
+        '''Add a widget to the child widget'''
+        self.child_widget.add_widget(widget)
+
+    def on_background_color(self, instance, value):
+        '''Update the background color when the background_color property changes'''
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(*value)
+            Rectangle(pos=self.pos, size=self.size)
+
+    def on_size(self, instance, value):
+        '''Update the child widget size when the size of the Scaffold changes'''
+        self.child_widget.size = value
+
+    def on_pos(self, instance, value):
+        '''Update the child widget position when the position of the Scaffold changes'''
+        self.child_widget.pos = value

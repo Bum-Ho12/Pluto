@@ -1,8 +1,11 @@
-'''file that manages the framework's context'''
+'''
+this file contains the code definition for context manager
+for the Pluto framework.
+'''
 import threading
 
 class ContextManager:
-    '''this class defines the context of the framework'''
+    '''context manager class'''
     _instance_lock = threading.Lock()
     _instance = None
 
@@ -18,18 +21,17 @@ class ContextManager:
         return self
 
     def execute_widget(self, widget):
-        '''method that execute the widget inside '''
+        '''executes the widgets'''
         widget.execute(self)
 
+    # pylint:disable = E1101
     def add_widget(self, widget_name):
-        '''method that add widgets to the context'''
-        # pylint: disable=no-member
+        '''adds widget to context'''
         with self.lock:
             self.widgets.append(widget_name)
 
     def remove_widget(self, widget_name):
-        '''Method that removes widgets from the context'''
-        # pylint: disable=no-member
+        '''removes widget from the context'''
         with self.lock:
             if widget_name in self.widgets:
                 self.widgets.remove(widget_name)
@@ -37,24 +39,22 @@ class ContextManager:
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass
-# pylint: disable=redefined-outer-name
-
 
 def context(cls):
-    '''
-    it is a decorator that adds widgets to context
-    '''
+    '''context handler method'''
     class ContextWidget(cls):
-        '''this class adds widgets to the context'''
+        '''context widget'''
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
-            self.execute(ContextManager()._instance)
+            self.context_manager = ContextManager()
+            self.context_manager.execute_widget(self)
 
+        # pylint: disable = W0621
         def execute(self, context):
-            '''this method performs the add_widget action from ContextManager class'''
+            '''executes the context'''
             context.add_widget(f"Widget ({self.__class__.__name__})")
 
-        def __del__(self):
-            # Remove the widget from the context when it is deleted
-            ContextManager()._instance.remove_widget(self)
+        def __exit__(self, exc_type, exc_value, traceback):
+            self.context_manager.remove_widget(f"Widget ({self.__class__.__name__})")
+
     return ContextWidget

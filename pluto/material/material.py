@@ -7,7 +7,6 @@ from .inkwell import InkWell
 from .snack_bar import Snackbar
 from .text import Text
 from .theme import Theme
-from .view_component import View
 from .bottom_nav_bar import BottomNavBar
 from .scaffold import Scaffold
 from .app_bar import AppBar

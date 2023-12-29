@@ -5,9 +5,10 @@ from kivy.graphics import Rectangle, Color
 class Container(FloatLayout):
     '''class that defines the Container widget'''
     def __init__(self, height=100, width=100,
-        child = None,
+        child=None,
         padding=(0, 0, 0, 0),
-        margin=(0, 0, 0, 0), decoration=None,
+        margin=(0, 0, 0, 0),
+        decoration=None,
         background_color=(0, 0, 0, 0), **kwargs):
         super(Container, self).__init__(**kwargs)
         self.size_hint = (None, None)
@@ -27,22 +28,24 @@ class Container(FloatLayout):
 
         # Create a background rectangle
         with self.canvas.before:
-            Color(*background_color)
+            Color(*background_color)  # Set a default color, it will be overridden by Rectangle
             self.rect = Rectangle(pos=self.pos, size=self.size)
-
     # pylint: disable = W0613
     def on_size(self, instance, value):
         '''Update the position of the background rectangle when size changes'''
-        self.rect.pos = self.pos
-        self.rect.size = value
+        if hasattr(self, 'rect'):
+            self.rect.pos = (self.x + self.margin[0], self.y + self.margin[1])
+            self.rect.size = (self.width - (self.margin[0] + self.margin[2]),
+                            self.height - (self.margin[1] + self.margin[3]))
 
     def on_pos(self, instance, value):
         '''Update the position of the background rectangle when position changes'''
-        self.rect.pos = value
+        if hasattr(self, 'rect'):
+            self.rect.pos = (self.x + self.margin[0],self.y + self.margin[1])
 
     # pylint: disable = W0221
     def add_widget(self, widget, **kwargs):
         '''Add a widget to the Container'''
         # Adjust child widget's position based on margin
-        widget.pos_hint = {'x': self.margin[0], 'y': self.margin[1]}
+        widget.pos = (self.margin[0],self.margin[1])
         return super(Container, self).add_widget(widget, **kwargs)

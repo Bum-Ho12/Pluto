@@ -3,6 +3,7 @@ this file contains script that manages the command line commands passed
 to execute different instructions
 '''
 import sys
+import subprocess
 from pluto.core import pluto_verse_env
 
 
@@ -16,15 +17,19 @@ def main():
         return
 
     command = sys.argv[1]
-
+    # pylint: disable = C0415:import-outside-toplevel
     if command == "run":
-        # pylint: disable = C0415:import-outside-toplevel
         from runner import main as pluto_main
         pluto_main()
     elif command == "setup":
         pluto_verse_env()
+    elif command == 'context':
+        from pluto.tests import test_context_manager
+        test_context_manager()
+    elif command == 'decorator-main':
+        from pluto.tests import context_decorator_test
+        context_decorator_test()
     elif command =="fetch":
-        # pylint: disable = C0415:import-outside-toplevel
         from pluto.handler import pluto_verse_main
         pluto_verse_main()
     else:

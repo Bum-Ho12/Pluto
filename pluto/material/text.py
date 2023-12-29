@@ -2,12 +2,14 @@
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle
 
+
 class Text(Label):
     '''class that defines a custom text'''
     # pylint: disable = W0102
     def __init__(self, text='', text_color=[1, 1, 1, 1],
+                background_color = [1,1,1,1],
                 font_size=15, font_name='Arial',
-                bold=False, italic=False, bounds=None, **kwargs):
+                 bold=False, italic=False, **kwargs):
         super(Text, self).__init__(**kwargs)
         self.text = text
         self.text_color = text_color
@@ -15,7 +17,9 @@ class Text(Label):
         self.font_name = font_name
         self.bold = bold
         self.italic = italic
-        self.bounds = bounds or (0, 0, 100, 30)
+
+        # Get the window color and set it as the background color
+        self.background_color = background_color
 
         self.update_properties()
         self.draw_text()
@@ -26,16 +30,25 @@ class Text(Label):
         self.font_size = self.font_size
         self.bold = 'bold' if self.bold else ''
         self.italic = int(self.italic)
-        self.size = (self.bounds[2] - self.bounds[0], self.bounds[3] - self.bounds[1])
-        print("Font Name:", self.font_name)
+        self.size = self.texture_size  # Set size based on the text content
         self.font_name = self.font_name
 
     def draw_text(self):
         '''draws the text on the canvas'''
-        with self.canvas:
-            Color(*self.text_color)
+        with self.canvas.before:
+            Color(*self.background_color)
             Rectangle(pos=self.pos, size=self.size)
 
+        with self.canvas:
+            Color(*self.text_color)
+
             # Draw the text
-            self.text_size = self.size
-            self.text = self.text
+            Rectangle(pos=self.pos, size=self.size)
+
+    # pylint: disable=W0613
+    def on_size(self, instance, value):
+        '''Update the size of the text when size changes'''
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(*self.background_color)
+            Rectangle(pos=self.pos, size=value)

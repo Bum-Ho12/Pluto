@@ -2,19 +2,26 @@
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
 from kivy.graphics import Rectangle, Color
+from pluto.implementation import context_manager,ContextManager
 
+@context_manager
 class InkWell(ButtonBehavior, Label):
     '''class that defines the InkWell component'''
-    def __init__(self, child=None, bounds=None, background_color=(1, 1, 1, 1), **kwargs):
+    def __init__(self, child=None,
+                bounds=None,
+                **kwargs):
         super(InkWell, self).__init__(**kwargs)
+        # pylint: disable = E1101
+        context = ContextManager()
+        theme = context.theme
         self.child = child
         self.bounds = bounds or (0, 0, 100, 50)  # Default bounds, adjust as needed
-        self.background_color = background_color
+        self.background_color = theme.button_normal_color
         self.opacity = 1.0
 
         # rectangle definition
         with self.canvas.before:
-            Color(*background_color)
+            Color(*self.background_color)
             self.rect = Rectangle(pos=self.pos, size=self.size)
 
     def on_press(self):

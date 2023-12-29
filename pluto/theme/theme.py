@@ -40,3 +40,6 @@ class Theme:
             'labelMedium': {'color': text_color, 'font_size': 12, 'bold': False},
             'labelSmall': {'color': text_color, 'font_size': 11, 'bold': False},
         }
+    def get_text_theme(self,style):
+        '''gets text Theme'''
+        return self.text_theme.get(style,{})

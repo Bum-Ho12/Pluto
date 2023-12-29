@@ -1,7 +1,9 @@
 '''file that defines the Container class widget'''
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle, Color
+from pluto.implementation import context_manager
 
+@context_manager
 class Container(FloatLayout):
     '''class that defines the Container widget'''
     def __init__(self, height=100, width=100,

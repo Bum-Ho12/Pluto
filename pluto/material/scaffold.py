@@ -4,7 +4,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Rectangle, Color
 # pylint: disable=E0611, W0613
 from kivy.properties import ObjectProperty
+from pluto.implementation import context_manager
 
+@context_manager
 class Scaffold(BoxLayout):
     '''scaffold class'''
     app_bar = ObjectProperty(None, force_dispatch=True)

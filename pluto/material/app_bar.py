@@ -5,8 +5,9 @@ define the top bar in pluto framework
 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, Rectangle
+from pluto.implementation import context_manager
 
-
+@context_manager
 class AppBar(BoxLayout):
     '''
     This class defines a custom AppBar widget.

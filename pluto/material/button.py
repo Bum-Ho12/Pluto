@@ -1,7 +1,9 @@
 '''file defines a button for the UI component framework'''
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
+from pluto.implementation import context_manager
 
+@context_manager
 class CustomButton(ButtonBehavior, Label):
     '''class that defines the Button component'''
     def __init__(self, text='', on_click=None, style=None, **kwargs):

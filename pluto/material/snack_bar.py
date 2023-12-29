@@ -3,7 +3,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.animation import Animation
 from kivy.clock import Clock
+from pluto.implementation import context_manager
 
+@context_manager
+# pylint: disable = E1101
 class Snackbar(BoxLayout):
     '''this class defines a snackbar banner'''
     def __init__(self, text, duration=3, bounds=None, width=300, height=50,opacity=1.0, **kwargs):
@@ -30,6 +33,7 @@ class Snackbar(BoxLayout):
         # Schedule the dismissal of the snackbar after the specified duration
         Clock.schedule_once(self.dismiss, duration)
 
+    # pylint: disable = W0613
     def update_pos(self, instance, value):
         '''Update the position of the snackbar'''
         self.label.pos = value

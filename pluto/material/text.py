@@ -1,25 +1,33 @@
 '''file that contains the text widget'''
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle
+from pluto.implementation import context_manager
 
-
+@context_manager
 class Text(Label):
     '''class that defines a custom text'''
     # pylint: disable = W0102
-    def __init__(self, text='', text_color=[1, 1, 1, 1],
-                background_color = [1,1,1,1],
-                font_size=15, font_name='Arial',
-                 bold=False, italic=False, **kwargs):
+    def __init__(self, text='',
+                style = 'labelMedium',
+                # text_color=[1, 1, 1, 1],
+                # background_color = [1,1,1,1],
+                # font_size=15, font_name='Arial',
+                # bold=False, italic=False,
+                 **kwargs):
         super(Text, self).__init__(**kwargs)
-        self.text = text
-        self.text_color = text_color
-        self.font_size = font_size
-        self.font_name = font_name
-        self.bold = bold
-        self.italic = italic
+        # pylint: disable = E1101
+        context = self.context_manager
 
-        # Get the window color and set it as the background color
-        self.background_color = background_color
+        theme = context.theme
+        text_theme = theme.get_text_theme(style)
+
+        self.text = text
+        self.text_color = text_theme.get('text_color',[1,1,1,1])
+        self.font_size = text_theme.get('font_size',15)
+        self.font_name = text_theme.get('font_name','Arial')
+        self.bold = text_theme.get('bold',False)
+        self.italic = text_theme.get('italic',False)
+        self.background_color = text_theme.get('background_color',[1,1,1,1])
 
         self.update_properties()
         self.draw_text()
@@ -52,3 +60,18 @@ class Text(Label):
         with self.canvas.before:
             Color(*self.background_color)
             Rectangle(pos=self.pos, size=value)
+
+    def on_create(self, context):
+        '''adds the Text widget to context'''
+        context.set_state('text', self.text)
+
+    def on_destroy(self):
+        '''removes Text widget from context'''
+        # You can add cleanup logic here if needed
+
+    def handle_message(self, sender, message):
+        '''passes messages in the context widgets'''
+        if message == 'update_text':
+            self.text = sender.get_state('text')
+            self.update_properties()
+            self.draw_text()

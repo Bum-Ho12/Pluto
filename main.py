@@ -8,7 +8,6 @@ from kivy.config import Config
 from pluto.material import Text, Scaffold,Container
 from pluto.material.app_bar import AppBar
 from pluto.implementation.ptx_wrapper import ptx
-from pluto.implementation import context
 
 Config.set('graphics', 'multisamples', '0')
 
@@ -20,7 +19,7 @@ def main_app():
     font_name = 'E:/Projects/Pluto/pluto/fonts/Montserrat-VariableFont_wght.ttf'
 
     # Create the Text widget
-    title_text = context(Text)(
+    title_text = Text(
         text='My First Demo',
         font_name=font_name,
         italic=False,
@@ -30,15 +29,15 @@ def main_app():
     )
 
     # Create the AppBar widget with the Text widget
-    app_bar_widget = context(AppBar)(
+    app_bar_widget = AppBar(
         title=title_text,
     )
 
     # Create the Scaffold widget
-    scaffold_widget = context(Scaffold)(
+    scaffold_widget = Scaffold(
         app_bar=app_bar_widget,
-        body=context(Container)(
-            child=context(Text)(
+        body=Container(
+            child=Text(
                 text='My First Body',
                 font_name=font_name,
                 italic=False,

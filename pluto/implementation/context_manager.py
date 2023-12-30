@@ -39,9 +39,7 @@ class ContextManager:
         - widget: The widget to be executed within the context.
         """
         print("Start: ")
-        # print(f"Start execute on widget: {widget}")
-        # print(f"Current widgets in context: {self.widgets}")
-        # print(f"Executing widget: {widget}")
+        print(f"Current widgets in context: {self.widgets}")
         widget.on_create(self)
         # widget.execute(self)
         self.widgets.append(widget)

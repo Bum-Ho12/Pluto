@@ -7,9 +7,13 @@ class Text(ContextWidget, Label):
     '''class that defines a custom text'''
 
     def __init__(self, text='', style='labelMedium', **kwargs):
+        # Set the context for the widget before calling super().__init__
+        context = kwargs.get('context', None)
+        if context:
+            self.set_context(context)
         super(Text, self).__init__(**kwargs)
         # Set the context for the widget
-        context = self._context
+        # context = self._context
 
         if context:
             # Access theme from the context
@@ -35,6 +39,10 @@ class Text(ContextWidget, Label):
 
             # Draw the text
             self.draw_text()
+            print(f"Theme:{text_theme.get('primary_color')}")
+        else:
+            # Print a message if context is not set
+            print("No context found for Text widget")
 
     def draw_text(self):
         '''draws the text on the canvas'''

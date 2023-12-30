@@ -40,8 +40,11 @@ class ContextManager:
         """
         print("Start: ")
         print(f"Current widgets in context: {self.widgets}")
+        # Set the context for the widget
+        widget.set_context(self)
+
         widget.on_create(self)
-        # widget.execute(self)
+
         self.widgets.append(widget)
         print(f"Widget executed successfully: {widget}")
 
@@ -150,20 +153,6 @@ class ContextWidget:
         """
         Called when the widget is destroyed.
         """
-
-
-    def execute(self, context):
-        """
-        Executes the context, adding the widget to the context manager.
-
-        Parameters:
-        - context: The context in which the widget is executed.
-        """
-        print(f"Start execute on widget: {self}")
-        print(f"Current widgets in context: {context.widgets}")
-        print(f"Executing widget: {self}")
-        context.execute_widget(self)
-        print(f"Widget executed successfully: {self}")
 
     def set_state(self, key, value):
         """

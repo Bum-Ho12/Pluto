@@ -2,12 +2,11 @@
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Rectangle, Color
-# pylint: disable=E0611, W0613
+# pylint:disable = E0611,W0613
 from kivy.properties import ObjectProperty
-from pluto.implementation import context_manager
+from pluto.implementation.context_manager import ContextWidget
 
-@context_manager
-class Scaffold(BoxLayout):
+class Scaffold(ContextWidget, BoxLayout):
     '''scaffold class'''
     app_bar = ObjectProperty(None, force_dispatch=True)
     body = ObjectProperty(None, force_dispatch=True)
@@ -55,8 +54,16 @@ class Scaffold(BoxLayout):
         if self.body:
             self.body.pos = value[0], value[1] + self.app_bar.height
 
-    def on_app_bar(self, instance, value):
-        '''sets app bar'''
-        if value:
-            # pylint: disable =C0301
-            self.height = self.app_bar.height + self.body.height if self.body else self.app_bar.height
+    def on_create(self, context):
+        '''adds the Scaffold widget to context'''
+        # You can add any additional setup logic here if needed
+
+
+    def on_destroy(self):
+        '''removes Scaffold widget from context'''
+        # You can add any cleanup logic here if needed
+
+
+    def handle_message(self, sender, message):
+        '''passes messages in the context widgets'''
+        # Handle messages if needed

@@ -1,10 +1,10 @@
 '''file that handles the decoration'''
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle, Color, RoundedRectangle
-from pluto.implementation import context_manager
+from pluto.implementation import ContextWidget
 
-@context_manager
-class Decoration(Widget):
+
+class Decoration(ContextWidget,Widget):
     '''class that defines the Decoration class'''
     def __init__(self, color=(1, 1, 1, 1), border_radius=0, bounds=None, **kwargs):
         super(Decoration, self).__init__(**kwargs)

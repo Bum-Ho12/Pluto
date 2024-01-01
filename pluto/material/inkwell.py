@@ -2,17 +2,16 @@
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
 from kivy.graphics import Rectangle, Color
-from pluto.implementation import context_manager,ContextManager
+from pluto.implementation import ContextWidget
 
-@context_manager
-class InkWell(ButtonBehavior, Label):
+
+class InkWell(ContextWidget,ButtonBehavior, Label):
     '''class that defines the InkWell component'''
     def __init__(self, child=None,
                 bounds=None,
+                context=None,
                 **kwargs):
         super(InkWell, self).__init__(**kwargs)
-        # pylint: disable = E1101
-        context = ContextManager()
         theme = context.theme
         self.child = child
         self.bounds = bounds or (0, 0, 100, 50)  # Default bounds, adjust as needed

@@ -1,10 +1,10 @@
 '''this file contains code that defines the behavior bottomNavBar'''
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from pluto.implementation import context_manager
+from pluto.implementation import ContextWidget
 
-@context_manager
-class BottomNavBar(BoxLayout):
+
+class BottomNavBar(ContextWidget,BoxLayout):
     '''class that defines the Navigation bar class'''
     def __init__(self, labels, screen_manager, **kwargs):
         super(BottomNavBar, self).__init__(**kwargs)

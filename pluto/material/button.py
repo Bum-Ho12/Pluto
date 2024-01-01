@@ -1,16 +1,20 @@
 '''file defines a button for the UI component framework'''
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
-from pluto.implementation import context_manager
+from pluto.implementation import ContextWidget
 
-@context_manager
-class CustomButton(ButtonBehavior, Label):
+
+class CustomButton(ContextWidget,ButtonBehavior, Label):
     '''class that defines the Button component'''
-    def __init__(self, text='', on_click=None, style=None, **kwargs):
+    def __init__(self, text='', on_click=None,
+                context = None,
+                 style=None, **kwargs):
         super(CustomButton, self).__init__(**kwargs)
         self.text = text
         self.on_click = on_click
         self.style = style or {}
+        theme = context.theme
+        print(f"Button Theme {theme['background_color']}")
 
         # Set button properties
         self.background_color = self.style.get('background', (1, 1, 1, 1))

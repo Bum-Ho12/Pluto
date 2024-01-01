@@ -3,17 +3,15 @@ from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle
 from pluto.implementation.context_manager import ContextWidget
 
+
 class Text(ContextWidget, Label):
     '''class that defines a custom text'''
 
-    def __init__(self, text='', style='labelMedium', **kwargs):
-        # Set the context for the widget before calling super().__init__
-        context = kwargs.get('context', None)
+    def __init__(self, text='', style='labelMedium', context=None,**kwargs):
+
         if context:
             self.set_context(context)
         super(Text, self).__init__(**kwargs)
-        # Set the context for the widget
-        # context = self._context
 
         if context:
             # Access theme from the context

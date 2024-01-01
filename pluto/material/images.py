@@ -1,9 +1,9 @@
 '''file that defines images'''
 from kivy.uix.image import Image, AsyncImage
-from pluto.implementation import context_manager
+from pluto.implementation import ContextWidget
 
-@context_manager
-class NetworkImage(AsyncImage):
+
+class NetworkImage(ContextWidget,AsyncImage):
     '''class defines the networkImage class
     required arguments:
     - sourcefile
@@ -15,8 +15,8 @@ class NetworkImage(AsyncImage):
         self.pos = bounds.pos if bounds else (0, 0)
         self.size = bounds.size if bounds else (100, 100)
 
-@context_manager
-class AssetImage(Image):
+
+class AssetImage(ContextWidget,Image):
     '''class that defines the assetImage class
     required arguments:
     - sourcefile

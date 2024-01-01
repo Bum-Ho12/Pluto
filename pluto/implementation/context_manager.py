@@ -3,6 +3,8 @@ this file contains the code definition for context manager
 for the Pluto framework.
 '''
 import threading
+# Import Clock from kivy
+from kivy.clock import Clock
 from pluto.theme import Theme
 
 class ContextManager:
@@ -20,6 +22,7 @@ class ContextManager:
                 cls._instance.theme = Theme()
                 cls._instance.margin = (0, 0, 0, 0)
                 cls._instance.padding = (0, 0, 0, 0)
+                cls._instance.initialized = False
         return cls._instance
 
     def __enter__(self):
@@ -38,15 +41,17 @@ class ContextManager:
         Parameters:
         - widget: The widget to be executed within the context.
         """
-        print("Start: ")
-        print(f"Current widgets in context: {self.widgets}")
-        # Set the context for the widget
-        widget.set_context(self)
+        with self.lock:
+            # Check if the widget has been initialized already
+            if widget not in self.widgets:
+                # Set the context for the widget
+                widget.set_context(self)
 
-        widget.on_create(self)
+                # Schedule on_create to be called in the main thread
+                Clock.schedule_once(lambda dt: widget.on_create(self))
 
-        self.widgets.append(widget)
-        print(f"Widget executed successfully: {widget}")
+                self.widgets.append(widget)
+                print(f"Widget executed successfully: {widget}")
 
     def remove_widget(self, widget):
         """
@@ -197,25 +202,25 @@ class ContextWidget:
         """
 
 
-def context_manager(widget_class):
-    '''context manager decorator'''
-    class ContextWidgetWrapper(widget_class):
-        '''context manager wrapper'''
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self._initialize_context_manager()
+# def context_manager(widget_class):
+#     '''context manager decorator'''
+#     class ContextWidgetWrapper(widget_class):
+#         '''context manager wrapper'''
+#         def __init__(self, *args, **kwargs):
+#             super().__init__(*args, **kwargs)
+#             self._initialize_context_manager()
 
-        def _initialize_context_manager(self):
-            """
-            Initializes the context manager for the widget.
-            """
-            self._context_manager = ContextManager()
-            self._context_manager.execute_widget(self)
+#         def _initialize_context_manager(self):
+#             """
+#             Initializes the context manager for the widget.
+#             """
+#             self._context_manager = ContextManager()
+#             self._context_manager.execute_widget(self)
 
-        def __exit__(self, exc_type, exc_value, traceback):
-            """
-            Handles the exit of the widget from the context.
-            """
-            self._context_manager.remove_widget(self)
+#         def __exit__(self, exc_type, exc_value, traceback):
+#             """
+#             Handles the exit of the widget from the context.
+#             """
+#             self._context_manager.remove_widget(self)
 
-    return ContextWidgetWrapper
+#     return ContextWidgetWrapper

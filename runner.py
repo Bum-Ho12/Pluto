@@ -8,7 +8,7 @@ import sys
 import threading
 from pathlib import Path
 from watchgod import watch
-from main import RunApp
+from lib.main import RunApp
 
 
 def reload():

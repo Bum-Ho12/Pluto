@@ -3,11 +3,11 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.animation import Animation
 from kivy.clock import Clock
-from pluto.implementation import context_manager
+from pluto.implementation import ContextWidget
 
-@context_manager
+
 # pylint: disable = E1101
-class Snackbar(BoxLayout):
+class Snackbar(ContextWidget,BoxLayout):
     '''this class defines a snackbar banner'''
     def __init__(self, text, duration=3, bounds=None, width=300, height=50,opacity=1.0, **kwargs):
         super(Snackbar, self).__init__(**kwargs)

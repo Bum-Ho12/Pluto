@@ -43,3 +43,10 @@ class Theme:
     def get_text_theme(self,style):
         '''gets text Theme'''
         return self.text_theme.get(style,{})
+
+    def __getattr__(self, name):
+        '''Allow access to theme values as attributes'''
+        if name in self.__dict__:
+            return self.__dict__[name]
+        else:
+            return None

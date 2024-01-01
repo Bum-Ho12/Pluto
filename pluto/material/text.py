@@ -77,3 +77,11 @@ class Text(ContextWidget, Label):
             self.text = sender.get_state('text')
 
             self.draw_text()
+
+    # pylint: disable = E0203,W0201
+    def on_text(self, instance, value):
+        '''Ensure reactivity monitoring to prevent unwanted recursions'''
+        if not self._reacting_to_text_update and self._context.is_reactivity_monitoring_enabled():
+            self._reacting_to_text_update = True
+            self.draw_text()
+            self._reacting_to_text_update = False

@@ -55,7 +55,7 @@ class Container(ContextWidget, FloatLayout):
 
     def on_create(self, context):
         '''adds the Container widget to context'''
-        # You can add any additional setup logic here if needed
+        print(f"Container {self} added to context with child: {self.children}")
 
 
     def on_destroy(self):

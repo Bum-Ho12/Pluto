@@ -19,10 +19,12 @@ class ContextManager:
                 cls._instance.lock = threading.Lock()
                 cls._instance.widgets = []  # List to keep track of added widgets
                 cls._instance.shared_state = {}  # Shared state among widgets
+                cls._instance.clock_scheduled_events = [] # tracks properties updates in kivy
                 cls._instance.theme = Theme()
                 cls._instance.margin = (0, 0, 0, 0)
                 cls._instance.padding = (0, 0, 0, 0)
                 cls._instance.initialized = False
+                cls._instance.reactivity_monitoring = False
         return cls._instance
 
     def __enter__(self):
@@ -100,6 +102,41 @@ class ContextManager:
         """
         with self.lock:
             recipient.handle_message(sender, message)
+
+    def schedule_clock_event(self, callback, interval):
+        """
+        Schedules a clock event with the specified callback and interval.
+
+        Parameters:
+        - callback: The function to be called.
+        - interval: The time interval between calls.
+        """
+        with self.lock:
+            event = Clock.schedule_interval(callback, interval)
+            self.clock_scheduled_events.append(event)
+
+    def unschedule_clock_events(self):
+        """Unschedule all clock events."""
+        with self.lock:
+            for event in self.clock_scheduled_events:
+                event.cancel()
+            self.clock_scheduled_events.clear()
+
+    # pylint:disable = W0201
+    def start_reactivity_monitoring(self):
+        """Starts reactivity monitoring."""
+        with self.lock:
+            self.reactivity_monitoring = True
+
+    def stop_reactivity_monitoring(self):
+        """Stops reactivity monitoring."""
+        with self.lock:
+            self.reactivity_monitoring = False
+
+    def is_reactivity_monitoring_enabled(self):
+        """Checks if reactivity monitoring is enabled."""
+        with self.lock:
+            return self.reactivity_monitoring
 
 class ContextWidget:
     '''context widget'''

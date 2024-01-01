@@ -13,6 +13,8 @@ class CustomButton(ContextWidget,ButtonBehavior, Label):
         self.text = text
         self.on_click = on_click
         self.style = style or {}
+        self.set_context(context)
+        self.execute_widget()
         theme = context.theme
         print(f"Button Theme {theme['background_color']}")
 

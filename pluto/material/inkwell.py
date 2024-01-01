@@ -17,6 +17,8 @@ class InkWell(ContextWidget,ButtonBehavior, Label):
         self.bounds = bounds or (0, 0, 100, 50)  # Default bounds, adjust as needed
         self.background_color = theme.button_normal_color
         self.opacity = 1.0
+        self.set_context(context)
+        self.execute_widget()
 
         # rectangle definition
         with self.canvas.before:

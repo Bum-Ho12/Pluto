@@ -140,7 +140,7 @@ class ContextManager:
 
 class ContextWidget:
     '''context widget'''
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
         self._context = None
 
@@ -180,6 +180,23 @@ class ContextWidget:
         """
         return self._context.padding
 
+    def execute_widget(self):
+        """
+        Executes the widget by initializing, executing,
+        and adding it to the list of widgets in the context.
+        """
+        with self._context.lock:
+            # Check if the widget has been initialized already
+            if self not in self._context.widgets:
+                # Set the context for the widget
+                self.set_context(self._context)
+
+                # Schedule on_create to be called in the main thread
+                Clock.schedule_once(lambda dt: self.on_create(self._context))
+
+                self._context.widgets.append(self)
+                print(f"Widget executed successfully: {self}")
+
     def on_create(self, context):
         """
         Called when the widget is created.
@@ -188,7 +205,6 @@ class ContextWidget:
         - context: The context in which the widget is created.
         """
         print(f"Executing widget: {self} in context: {context}")
-        context.execute_widget(self)
 
 
     def on_destroy(self):

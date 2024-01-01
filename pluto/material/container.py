@@ -11,7 +11,9 @@ class Container(ContextWidget, FloatLayout):
                 padding=(0, 0, 0, 0),
                 margin=(0, 0, 0, 0),
                 decoration=None,
+                context=None,
                 background_color=(0, 0, 0, 0), **kwargs):
+
         super(Container, self).__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (width, height)
@@ -19,6 +21,8 @@ class Container(ContextWidget, FloatLayout):
         self.margin = margin
         self.decoration = decoration
         self.background_color = background_color
+        self.set_context(context)
+        self.execute_widget()
 
         # Render decoration if available
         if self.decoration:

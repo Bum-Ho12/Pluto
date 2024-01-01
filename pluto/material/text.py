@@ -35,6 +35,9 @@ class Text(ContextWidget, Label):
             self.size = self.texture_size
             self.font_name = self.font_name
 
+            self.set_context(context)
+            self.execute_widget()
+
             # Draw the text
             self.draw_text()
             print(f"Theme:{text_theme.get('primary_color')}")
@@ -83,5 +86,6 @@ class Text(ContextWidget, Label):
         '''Ensure reactivity monitoring to prevent unwanted recursions'''
         if not self._reacting_to_text_update and self._context.is_reactivity_monitoring_enabled():
             self._reacting_to_text_update = True
+            self.text = value
             self.draw_text()
             self._reacting_to_text_update = False

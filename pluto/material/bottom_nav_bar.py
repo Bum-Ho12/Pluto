@@ -6,10 +6,12 @@ from pluto.implementation import ContextWidget
 
 class BottomNavBar(ContextWidget,BoxLayout):
     '''class that defines the Navigation bar class'''
-    def __init__(self, labels, screen_manager, **kwargs):
+    def __init__(self, labels, screen_manager,context=None, **kwargs):
         super(BottomNavBar, self).__init__(**kwargs)
         self.orientation = 'horizontal'
         self.screen_manager = screen_manager
+        self.set_context(context)
+        self.execute_widget()
 
         # Create buttons for each screen
         for label in labels:

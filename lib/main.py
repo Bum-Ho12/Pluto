@@ -60,22 +60,22 @@ Config.set('graphics', 'multisamples', '0')
 #     return scaffold_widget
 
 @ptx
-def main_app():
+def main_app(context):
     '''main function definition for StatefulWidget'''
-    with ContextManager() as context:
-        counter_widget = CounterWidget()
-        context.execute_widget(counter_widget)
-        container = Container(
-            child=counter_widget,  # Add the widget to the UI
-            background_color=[0, 0, 0, 0],
-            width=100,
-            height=50,
-            padding=(5, 5, 5, 5),
-            margin=(2, 2, 2, 2)
-        )
+    counter_widget = CounterWidget()
+    # context.execute_widget(counter_widget)
+    return Container(
+        child=counter_widget,  # Add the widget to the UI
+        background_color=[0, 0, 0, 0],
+        context=context,
+        width=100,
+        height=50,
+        padding=(5, 5, 5, 5),
+        margin=(2, 2, 2, 2)
+    )
 
         # Additional code to display the UI window
-        context.execute_widget(container)
+    # context.execute_widget(container)
 
 # @ptx
 # def main_app():
@@ -91,5 +91,6 @@ class RunApp(App):
 
     def build(self):
         # Instantiate the root widget using the main_app function
-        main_widget = main_app()
+        with ContextManager() as context:
+            main_widget = main_app(context)
         return main_widget

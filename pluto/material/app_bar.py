@@ -14,12 +14,14 @@ class AppBar(ContextWidget, BoxLayout):
 
     def __init__(
         self, title=None, background_color=(0, 0, 0, 1),
-        height=56, orientation='horizontal', **kwargs
+        height=56, orientation='horizontal', context=None,**kwargs
     ):
         super(AppBar, self).__init__(**kwargs)
         self.orientation = orientation
         self.size_hint_y = None
         self.height = height
+        self.set_context(context)
+        self.execute_widget()
 
         # Create and add a title Text widget
         if title:

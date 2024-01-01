@@ -6,11 +6,15 @@ from pluto.implementation import ContextWidget
 
 class Decoration(ContextWidget,Widget):
     '''class that defines the Decoration class'''
-    def __init__(self, color=(1, 1, 1, 1), border_radius=0, bounds=None, **kwargs):
+    def __init__(self, color=(1, 1, 1, 1), border_radius=0,
+                context=None,
+                bounds=None, **kwargs):
         super(Decoration, self).__init__(**kwargs)
         self.color = color
         self.border_radius = border_radius
         self.bounds = bounds or (0, 0, 100, 100)  # Default bounds, adjust as needed
+        self.set_context(context)
+        self.execute_widget()
 
         self.draw()
 

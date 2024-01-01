@@ -9,11 +9,13 @@ class NetworkImage(ContextWidget,AsyncImage):
     - sourcefile
     - bounds
     '''
-    def __init__(self, image_url, bounds=None, **kwargs):
+    def __init__(self, image_url, context=None,bounds=None, **kwargs):
         super(NetworkImage, self).__init__(**kwargs)
         self.source = image_url
         self.pos = bounds.pos if bounds else (0, 0)
         self.size = bounds.size if bounds else (100, 100)
+        self.set_context(context)
+        self.execute_widget()
 
 
 class AssetImage(ContextWidget,Image):
@@ -22,8 +24,10 @@ class AssetImage(ContextWidget,Image):
     - sourcefile
     - bounds
     '''
-    def __init__(self, image_filename, bounds=None, **kwargs):
+    def __init__(self, image_filename, context=None,bounds=None, **kwargs):
         super(AssetImage, self).__init__(**kwargs)
         self.source = image_filename
         self.pos = bounds.pos if bounds else (0, 0)
         self.size = bounds.size if bounds else (100, 100)
+        self.set_context(context)
+        self.execute_widget()

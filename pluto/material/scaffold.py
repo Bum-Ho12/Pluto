@@ -13,7 +13,7 @@ class Scaffold(ContextWidget, BoxLayout):
 
     def __init__(
         self, app_bar=None, body=None,
-        orientation='vertical',
+        orientation='vertical',context= None,
         padding=(10, 10), margin=(10, 10),
         **kwargs
     ):
@@ -21,6 +21,8 @@ class Scaffold(ContextWidget, BoxLayout):
         self.orientation = orientation
         self.padding = padding
         self.margin = margin
+        self.set_context(context)
+        self.execute_widget()
 
         self.app_bar = app_bar
         self.body = body

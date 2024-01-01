@@ -4,12 +4,12 @@ from pluto.implementation.state_widgets import State, StatefulWidget
 from pluto.material.button import CustomButton
 from pluto.material.text import Text
 
+# pylint:disable = E1101
 class CounterWidgetState(State):
     '''
     an example class to showcase how to use
     StatefulWidget and State
     '''
-    # pylint: disable = E1101
     def __init__(self, widget, initial_count=0):
         super().__init__(widget)
         self._count = initial_count
@@ -31,12 +31,10 @@ class CounterWidgetState(State):
         # Update the shared state, triggering the on_text event in Text widget
         self.widget._context.set_state('text', str(self._count))
 
-    # pylint: disable = W0212
     def build(self):
         return Text(text=str(self._count), context=self.widget._context)
 
-# pylint: disable = E1101
-class CounterWidget(FloatLayout,StatefulWidget):
+class CounterWidget(FloatLayout, StatefulWidget):
     '''final widget to integrate into main.py'''
     def create_state(self):
         return CounterWidgetState(self)
@@ -45,7 +43,7 @@ class CounterWidget(FloatLayout,StatefulWidget):
         '''builds'''
         self.build()
 
-    # pylint: disable = W0221
+    # pylint:disable = W0221
     def add_widget(self, widget, **kwargs):
         '''
         Override add_widget to ensure compatibility with Kivy's widget structure

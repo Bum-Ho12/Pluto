@@ -4,6 +4,10 @@ from pluto.implementation import ContextWidget
 
 class StatefulWidget(ContextWidget):
     '''class that handles mutable widget state'''
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.execute_widget()
+
     def create_state(self):
         '''handles the mutable creation of state'''
         raise NotImplementedError
@@ -17,6 +21,9 @@ class StatelessWidget(ContextWidget):
 
 class State(ContextWidget):
     '''Manages mutable state'''
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
     def build(self):
         '''builds the mutable state of widget'''
         raise NotImplementedError

@@ -48,6 +48,11 @@ class ContextManager:
             if widget not in self.widgets:
                 # Set the context for the widget
                 widget.set_context(self)
+                # Set the parent for the widget
+            if self.widgets:
+                parent = self.widgets[-1]  # Assuming the last added widget is the parent
+                widget.set_parent(parent)
+                parent.add_child(widget)
 
                 # Schedule on_create to be called in the main thread
                 Clock.schedule_once(lambda dt: widget.on_create(self))
@@ -66,6 +71,8 @@ class ContextManager:
             if widget in self.widgets:
                 self.widgets.remove(widget)
                 widget.on_destroy()
+            # Remove the parent-child relationship
+            widget.set_parent(None)
 
     def set_state(self, key, value):
         """
@@ -102,6 +109,9 @@ class ContextManager:
         """
         with self.lock:
             recipient.handle_message(sender, message)
+            # Propagate the message to children
+            for child in recipient.get_children():
+                self.send_message(sender, child, message)
 
     def schedule_clock_event(self, callback, interval):
         """
@@ -143,8 +153,10 @@ class ContextWidget:
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
         self._context = None
+        self._parent = None
+        self._children = []
 
-    def set_context(self, context):
+    def set_context(self, context)->None:
         """
         Sets the context for the widget.
 
@@ -152,6 +164,40 @@ class ContextWidget:
         - context: The context in which the widget exists.
         """
         self._context = context
+
+    def set_parent(self, parent)->None:
+        """
+        Sets the parent widget for the widget.
+
+        Parameters:
+        - parent: The parent widget of the current widget.
+        """
+        self._parent = parent
+
+    def get_parent(self):
+        """
+        Gets the parent widget for the widget.
+        """
+        return self._parent
+
+    def get_children(self):
+        """
+        Gets the list of children widgets.
+
+        Returns:
+        - List of children widgets.
+        """
+        return self._children
+
+    def add_child(self, child):
+        """
+        adds children widget for the widget.
+
+        Parameters:
+        - child: The child widget of the current widget.
+        """
+        self._children.append(child)
+        child.set_parent(self)
 
     def get_theme(self):
         """
@@ -253,27 +299,3 @@ class ContextWidget:
         - sender: The widget sending the message.
         - message: The message received.
         """
-
-
-# def context_manager(widget_class):
-#     '''context manager decorator'''
-#     class ContextWidgetWrapper(widget_class):
-#         '''context manager wrapper'''
-#         def __init__(self, *args, **kwargs):
-#             super().__init__(*args, **kwargs)
-#             self._initialize_context_manager()
-
-#         def _initialize_context_manager(self):
-#             """
-#             Initializes the context manager for the widget.
-#             """
-#             self._context_manager = ContextManager()
-#             self._context_manager.execute_widget(self)
-
-#         def __exit__(self, exc_type, exc_value, traceback):
-#             """
-#             Handles the exit of the widget from the context.
-#             """
-#             self._context_manager.remove_widget(self)
-
-#     return ContextWidgetWrapper

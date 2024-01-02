@@ -63,7 +63,6 @@ Config.set('graphics', 'multisamples', '0')
 def main_app(context):
     '''main function definition for StatefulWidget'''
     counter_widget = CounterWidget()
-    # context.execute_widget(counter_widget)
     return Container(
         child=counter_widget,  # Add the widget to the UI
         background_color=[0, 0, 0, 0],

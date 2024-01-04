@@ -9,23 +9,17 @@ from pluto.theme import Theme
 
 class ContextManager:
     '''context manager'''
-    _instance_lock = threading.Lock()
-    _instance = None
-
-    def __new__(cls):
-        with cls._instance_lock:
-            if not cls._instance:
-                cls._instance = super().__new__(cls)
-                cls._instance.lock = threading.Lock()
-                cls._instance.widgets = []  # List to keep track of added widgets
-                cls._instance.shared_state = {}  # Shared state among widgets
-                cls._instance.clock_scheduled_events = [] # tracks properties updates in kivy
-                cls._instance.theme = Theme()
-                cls._instance.margin = (0, 0, 0, 0)
-                cls._instance.padding = (0, 0, 0, 0)
-                cls._instance.initialized = False
-                cls._instance.reactivity_monitoring = False
-        return cls._instance
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.widgets = []  # List to keep track of added widgets
+        self.shared_state = {}  # Shared state among widgets
+        self.clock_scheduled_events = [] # tracks properties updates in kivy
+        self.theme = Theme()
+        self.margin = (0, 0, 0, 0)
+        self.padding = (0, 0, 0, 0)
+        self.initialized = False
+        self.parent_context = None
+        self.reactivity_monitoring = False
 
     def __enter__(self):
         return self
@@ -44,10 +38,10 @@ class ContextManager:
         - widget: The widget to be executed within the context.
         """
         with self.lock:
-            # Check if the widget has been initialized already
-            if widget not in self.widgets:
-                # Set the context for the widget
-                widget.set_context(self)
+            # Create a new context for the widget
+            widget_context = ContextManager()
+            widget_context.parent_context = self  # Store a reference to the parent context
+            widget.set_context(widget_context)
                 # Set the parent for the widget
             if self.widgets:
                 parent = self.widgets[-1]  # Assuming the last added widget is the parent
@@ -55,7 +49,8 @@ class ContextManager:
                 parent.add_child(widget)
 
                 # Schedule on_create to be called in the main thread
-                Clock.schedule_once(lambda dt: widget.on_create(self))
+                # Clock.schedule_once(lambda dt: widget.on_create(self))
+                widget.on_create(widget_context)
 
                 self.widgets.append(widget)
                 print(f"Widget executed successfully: {widget}")
@@ -155,6 +150,7 @@ class ContextWidget:
         self._context = None
         self._parent = None
         self._children = []
+        self._parent_context = None
 
     def set_context(self, context)->None:
         """
@@ -164,6 +160,8 @@ class ContextWidget:
         - context: The context in which the widget exists.
         """
         self._context = context
+        if hasattr(self._context, 'parent_context') and self._context.parent_context:
+            self._parent_context = self._context.parent_context
 
     def set_parent(self, parent)->None:
         """

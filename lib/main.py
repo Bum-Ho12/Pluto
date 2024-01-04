@@ -5,6 +5,7 @@ the Pluto framework
 '''
 from kivy.app import App
 from kivy.config import Config
+from kivy.uix.label import Label
 from lib.stateful_example import CounterWidget
 # from lib.stateless_example import GreetingWidget
 # from pluto.material import Scaffold, Container,Text
@@ -12,6 +13,7 @@ from lib.stateful_example import CounterWidget
 from pluto.implementation.context_manager import ContextManager
 from pluto.implementation.ptx_wrapper import ptx
 from pluto.material.container import Container
+from pluto.material.text import Text
 
 Config.set('graphics', 'multisamples', '0')
 
@@ -60,13 +62,15 @@ Config.set('graphics', 'multisamples', '0')
 #     return scaffold_widget
 
 @ptx
-def main_app(context):
+def main_app():
     '''main function definition for StatefulWidget'''
-    counter_widget = CounterWidget()
+    # counter_widget = CounterWidget()
     return Container(
-        child=counter_widget,  # Add the widget to the UI
+        # child=counter_widget,  # Add the widget to the UI
+        child= Text(
+            text='Test Demo',
+        ),
         background_color=[0, 0, 0, 0],
-        context=context,
         width=100,
         height=50,
         padding=(5, 5, 5, 5),
@@ -90,6 +94,5 @@ class RunApp(App):
 
     def build(self):
         # Instantiate the root widget using the main_app function
-        with ContextManager() as context:
-            main_widget = main_app(context)
+        main_widget = main_app()
         return main_widget

@@ -5,11 +5,8 @@ the Pluto framework
 '''
 from kivy.app import App
 from kivy.config import Config
-from kivy.uix.label import Label
 from lib.stateful_example import CounterWidget
 # from lib.stateless_example import GreetingWidget
-# from pluto.material import Scaffold, Container,Text
-# from pluto.material.app_bar import AppBar
 from pluto.implementation.context_manager import ContextManager
 from pluto.implementation.ptx_wrapper import ptx
 from pluto.material.container import Container

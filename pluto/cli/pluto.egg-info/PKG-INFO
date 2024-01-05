@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: pluto
+Version: 0.2
+Requires-Dist: click
+Requires-Dist: toml
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"

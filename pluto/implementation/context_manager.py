@@ -3,7 +3,6 @@ this file contains the code definition for context manager
 for the Pluto framework.
 '''
 import threading
-# Import Clock from kivy
 from kivy.clock import Clock
 from pluto.theme import Theme
 
@@ -17,9 +16,9 @@ class ContextManager:
         self.theme = Theme()
         self.margin = (0, 0, 0, 0)
         self.padding = (0, 0, 0, 0)
-        self.initialized = False
-        self.parent_context = None
-        self.reactivity_monitoring = False
+        self.initialized = False # boolean to track if context is initialized
+        self.parent_context = None # parent context
+        self.reactivity_monitoring = False # tracks reactivity for reactive programming purpose
 
     def __enter__(self):
         return self

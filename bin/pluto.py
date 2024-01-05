@@ -1,19 +1,22 @@
+#!/usr/bin/env python
 '''
 this file contains script that manages the command line commands passed
 to execute different instructions
 '''
+
 import sys
-import subprocess
+import click
 from pluto.core import pluto_verse_env
 
-
+@click.command()
+@click.argument('command')
 def main():
     '''
     checks type of instruction and handles passed as arguments
     and assigns correct scripts.
     '''
     if len(sys.argv) < 2:
-        print("Usage: python pluto.py <command>")
+        print("Usage: pluto <command>")
         return
 
     command = sys.argv[1]

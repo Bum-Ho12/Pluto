@@ -1,0 +1,2 @@
+[console_scripts]
+pluto = pluto.__main__:cli

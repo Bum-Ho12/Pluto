@@ -1,5 +1,5 @@
 '''file that defines state and stateful widget states'''
-from pluto.implementation import ContextWidget
+from pluto_architecture.implementation import ContextWidget
 
 
 class StatefulWidget(ContextWidget):

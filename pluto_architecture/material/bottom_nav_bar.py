@@ -2,8 +2,8 @@
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from pluto.implementation import ContextWidget
-from pluto.implementation.context_manager import ContextManager
+from pluto_architecture.implementation import ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager
 
 
 class BottomNavBar(ContextWidget,BoxLayout):

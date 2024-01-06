@@ -2,7 +2,7 @@
 from kivy.clock import Clock
 from kivy.uix.label import Label
 from kivy.graphics import Color, Rectangle
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 
 class Text(ContextWidget, Label):

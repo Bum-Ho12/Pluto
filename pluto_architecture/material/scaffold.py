@@ -5,7 +5,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Rectangle, Color
 # pylint: disable = E0611
 from kivy.properties import ObjectProperty
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 class Scaffold(ContextWidget, BoxLayout):
     '''scaffold class'''

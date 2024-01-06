@@ -2,8 +2,8 @@
 from kivy.clock import Clock
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
-from pluto.implementation import ContextWidget
-from pluto.implementation.context_manager import ContextManager
+from pluto_architecture.implementation import ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager
 
 
 class CustomButton(ContextWidget,ButtonBehavior, Label):

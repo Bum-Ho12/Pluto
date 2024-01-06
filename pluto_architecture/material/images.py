@@ -1,7 +1,7 @@
 '''file that defines images'''
 from kivy.clock import Clock
 from kivy.uix.image import AsyncImage, Image
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 class NetworkImage(ContextWidget, AsyncImage):
     '''class defines the NetworkImage class

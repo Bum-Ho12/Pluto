@@ -2,8 +2,8 @@
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle, Color, RoundedRectangle
-from pluto.implementation import ContextWidget
-from pluto.implementation.context_manager import ContextManager
+from pluto_architecture.implementation import ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager
 
 
 class Decoration(ContextWidget,Widget):

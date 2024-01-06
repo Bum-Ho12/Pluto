@@ -1,6 +1,6 @@
 '''example that shows how to use StatelessWidget'''
-from pluto.implementation.state_widgets import StatelessWidget
-from pluto.material.text import Text
+from pluto_architecture.implementation.state_widgets import StatelessWidget
+from pluto_architecture.material.text import Text
 
 
 class GreetingWidget(StatelessWidget):

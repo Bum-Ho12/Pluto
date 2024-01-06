@@ -5,7 +5,7 @@ define the top bar in pluto framework
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Color, Rectangle
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 class AppBar(ContextWidget, BoxLayout):
     '''

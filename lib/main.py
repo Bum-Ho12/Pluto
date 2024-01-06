@@ -7,10 +7,10 @@ from kivy.app import App
 from kivy.config import Config
 from lib.stateful_example import CounterWidget
 # from lib.stateless_example import GreetingWidget
-from pluto.implementation.context_manager import ContextManager
-from pluto.implementation.ptx_wrapper import ptx
-from pluto.material.container import Container
-from pluto.material.text import Text
+from pluto_architecture.implementation.context_manager import ContextManager
+from pluto_architecture.implementation.ptx_wrapper import ptx
+from pluto_architecture.material.container import Container
+from pluto_architecture.material.text import Text
 
 Config.set('graphics', 'multisamples', '0')
 

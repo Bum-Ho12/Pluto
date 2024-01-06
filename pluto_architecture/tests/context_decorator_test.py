@@ -1,7 +1,7 @@
-from pluto.material import Text, Scaffold, Container
-from pluto.material.app_bar import AppBar
-from pluto.implementation import context_manager
 import unittest
+from pluto_architecture.material import Text, Scaffold, Container
+from pluto_architecture.material.app_bar import AppBar
+from pluto_architecture.implementation import context_manager
 
 # Apply the @context decorator to all widgets
 @context_manager

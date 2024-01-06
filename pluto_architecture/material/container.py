@@ -2,7 +2,7 @@
 from kivy.clock import Clock
 from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle, Color
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 class Container(ContextWidget, FloatLayout):
     '''class that defines the Container widget'''

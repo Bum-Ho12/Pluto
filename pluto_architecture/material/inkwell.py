@@ -3,7 +3,7 @@ from kivy.clock import Clock
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.label import Label
 from kivy.graphics import Rectangle, Color
-from pluto.implementation.context_manager import ContextManager, ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager, ContextWidget
 
 class InkWell(ContextWidget, ButtonBehavior, Label):
     '''class that defines the InkWell component'''

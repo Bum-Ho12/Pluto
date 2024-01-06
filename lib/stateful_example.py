@@ -1,8 +1,8 @@
 '''example implementation of stateful widget'''
 from kivy.uix.floatlayout import FloatLayout
-from pluto.implementation.state_widgets import State, StatefulWidget
-from pluto.material.button import CustomButton
-from pluto.material.text import Text
+from pluto_architecture.implementation.state_widgets import State, StatefulWidget
+from pluto_architecture.material.button import CustomButton
+from pluto_architecture.material.text import Text
 
 # pylint:disable = E1101
 class CounterWidgetState(State):

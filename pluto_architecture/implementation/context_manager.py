@@ -4,7 +4,7 @@ for the Pluto framework.
 '''
 import threading
 from kivy.clock import Clock
-from pluto.theme import Theme
+from pluto_architecture.theme import Theme
 
 class ContextManager:
     '''context manager'''

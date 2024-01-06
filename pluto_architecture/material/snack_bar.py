@@ -3,8 +3,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.animation import Animation
 from kivy.clock import Clock
-from pluto.implementation import ContextWidget
-from pluto.implementation.context_manager import ContextManager
+from pluto_architecture.implementation import ContextWidget
+from pluto_architecture.implementation.context_manager import ContextManager
 
 
 # pylint: disable = E1101

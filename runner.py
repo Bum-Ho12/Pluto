@@ -2,9 +2,11 @@
 import os
 import sys
 import importlib
+from kivy.app import App
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from lib.main import RunApp
+
 
 LIB_PATH = os.getcwd()
 
@@ -47,6 +49,9 @@ def reload_runner():
         # Your Kivy entry point or runner code
         RunApp().run()
     except KeyboardInterrupt:
-        framework.observer.stop()
-
+        pass
+    # ensures kivy app is stopped properly
+    App.get_running_app().stop()
+    # this stops the watcher after the kivy stops running app
+    framework.observer.stop()
     framework.observer.join()

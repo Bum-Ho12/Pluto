@@ -64,7 +64,7 @@ def main_app():
     return Container(
         # child=counter_widget,  # Add the widget to the UI
         child= Text(
-            text='Test Demo',
+            text='Test Reactivity',
         ),
         background_color=[0, 0, 0, 0],
         width=100,

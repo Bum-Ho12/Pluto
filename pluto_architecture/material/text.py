@@ -10,6 +10,10 @@ class Text(ContextWidget, Label):
     def __init__(self, text='', style='labelMedium',**kwargs):
 
         super(Text, self).__init__(**kwargs)
+        # initializing context
+        self.context = self.get_context()
+        # initializing reactivity_monitoring
+        self._reacting_to_text_update = False
         # Access theme from the context
         theme = self._context.theme
         text_theme = theme.get_text_theme(style)
@@ -31,7 +35,7 @@ class Text(ContextWidget, Label):
         self.font_name = self.font_name
         # Draw the text
         self.draw_text()
-        print(f"Theme:{text_theme.get('primary_color')}")
+        print(f"Theme:{text_theme.get('font_size')}")
 
     def draw_text(self):
         '''draws the text on the canvas'''
@@ -68,7 +72,7 @@ class Text(ContextWidget, Label):
     # pylint: disable = E0203,W0201
     def on_text(self, instance, value):
         '''Ensure reactivity monitoring to prevent unwanted recursions'''
-        if not self._reacting_to_text_update and self._context.is_reactivity_monitoring_enabled():
+        if not self._reacting_to_text_update and self.context.is_reactivity_monitoring_enabled():
             self._reacting_to_text_update = True
             self.text = value
             self.draw_text()

@@ -7,7 +7,22 @@ from kivy.clock import Clock
 from pluto_architecture.theme import Theme
 
 class ContextManager:
-    '''context manager'''
+    '''
+    context manager class
+    methods:
+        - __enter__
+        - __exit__
+        - execute_widget
+        - remove_widget
+        - set_widget
+        - get_state
+        - send_message
+        - schedule_clock_event
+        - unschedule_clock_events
+        - start_reactivity_monitoring
+        - stop_reactivity_monitoring
+        - is_reactivity_monitoring_enabled
+    '''
     def __init__(self):
         self.lock = threading.Lock()
         self.widgets = []  # List to keep track of added widgets
@@ -27,7 +42,6 @@ class ContextManager:
         # Add any cleanup logic here if needed
         pass
 
-    # pylint: disable = E1101
     def execute_widget(self, widget):
         """
         Executes the given widget by initializing, executing,
@@ -37,19 +51,11 @@ class ContextManager:
         - widget: The widget to be executed within the context.
         """
         with self.lock:
-            # Create a new context for the widget
-            widget_context = ContextManager()
-            widget_context.parent_context = self  # Store a reference to the parent context
-            widget.set_context(widget_context)
                 # Set the parent for the widget
             if self.widgets:
                 parent = self.widgets[-1]  # Assuming the last added widget is the parent
                 widget.set_parent(parent)
                 parent.add_child(widget)
-
-                # Schedule on_create to be called in the main thread
-                # Clock.schedule_once(lambda dt: widget.on_create(self))
-                widget.on_create(widget_context)
 
                 self.widgets.append(widget)
                 print(f"Widget executed successfully: {widget}")
@@ -143,13 +149,33 @@ class ContextManager:
             return self.reactivity_monitoring
 
 class ContextWidget:
-    '''context widget'''
+    '''
+    context widget class
+    methods:
+    - set_context
+    - set_parent
+    - get_parent
+    - get_children
+    - add_child
+    - get_theme
+    - get_margin
+    - get_padding
+    - on_create
+    - on_destroy
+    - set_state
+    - get_state
+    - send_message
+    - handle_message
+    '''
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
+        context_manager = ContextManager()
         self._context = None
         self._parent = None
         self._children = []
         self._parent_context = None
+        context_manager.execute_widget(self)
+        self.set_context(context_manager)
 
     def set_context(self, context)->None:
         """
@@ -214,6 +240,10 @@ class ContextWidget:
         """
         return self._context.margin
 
+    def get_context(self):
+        '''provides the context value'''
+        return self._context
+
     def get_padding(self):
         """
         Gets the padding from the associated context.
@@ -223,31 +253,14 @@ class ContextWidget:
         """
         return self._context.padding
 
-    def execute_widget(self):
-        """
-        Executes the widget by initializing, executing,
-        and adding it to the list of widgets in the context.
-        """
-        with self._context.lock:
-            # Check if the widget has been initialized already
-            if self not in self._context.widgets:
-                # Set the context for the widget
-                self.set_context(self._context)
-
-                # Schedule on_create to be called in the main thread
-                Clock.schedule_once(lambda dt: self.on_create(self._context))
-
-                self._context.widgets.append(self)
-                print(f"Widget executed successfully: {self}")
-
-    def on_create(self, context):
+    def on_create(self):
         """
         Called when the widget is created.
 
         Parameters:
         - context: The context in which the widget is created.
         """
-        print(f"Executing widget: {self} in context: {context}")
+        print(f"Executing widget: {self} in context: {self._context}")
 
 
     def on_destroy(self):

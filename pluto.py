@@ -18,8 +18,8 @@ def main(command):
 
     # pylint: disable = C0415:import-outside-toplevel
     if command == "run":
-        from runner import main as pluto_main
-        pluto_main()
+        from runner import reload_runner
+        reload_runner()
     elif command == "setup":
         pluto_verse_env()
     elif command == 'context':

@@ -6,6 +6,7 @@ from kivy.app import App
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from lib.main import RunApp
+from lib.pluto_app import MainLogic
 
 
 LIB_PATH = os.getcwd()
@@ -21,14 +22,26 @@ class HotReloadHandler(FileSystemEventHandler):
             return
 
         print(f"Changes detected in {event.src_path}")
-        self.reload_components()
+        if "pluto_app.py" in event.src_path:
+            self.reload_main()
 
-    def reload_components(self):
-        '''tracker for which components to reload'''
-        for module in list(sys.modules.keys()):
-            if module.startswith('your_project_name.'):  # Adjust based on your project's structure
-                importlib.reload(sys.modules[module])
-                print(f"Reloaded: {module}")
+    def reload_main(self):
+        '''reload the main module'''
+        try:
+            # Reload the main module
+            importlib.reload(sys.modules['pluto_app'])
+            self.restart_kivy_app()
+            print("Reloaded: pluto_app.py")
+        # pylint: disable = W0718
+        except Exception as e:
+            print(f"Error during reload: {e}")
+
+    def restart_kivy_app(self):
+        '''invokes new instance of the root widget'''
+        App.get_running_app().root_window.remove_widget(App.get_running_app().root)
+        new_main_widget = MainLogic.run_app()
+        App.get_running_app().root = new_main_widget
+        App.get_running_app().root_window.add_widget(new_main_widget)
 
 class ProjectEntryPoint:
     '''my Pluto entry point'''
